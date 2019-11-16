@@ -1,0 +1,17 @@
+^{:watch-dirs       ["src" "test/src"]
+  :css-dirs         ["dev/resources/public/assets/styles"]
+  :npm              {:bundles {"dev/resources/public/assets/js/index.min.js" "src/index.js"}}
+  :auto-testing     true
+  :extra-main-files {:tests {:main monaco.test-runner}}}
+
+{:main            monaco.core
+ :output-to       "dev/resources/public/assets/js/monaco.min.js"
+ :optimizations   :none
+ :source-map      true
+ :pretty-print    true
+ :parallel-build  true
+ :npm-deps        false
+ :infer-externs   true
+ :preloads        [day8.re-frame-10x.preload]
+ :closure-defines {goog.DEBUG                          true
+                   re_frame.trace.trace_enabled_QMARK_ true}}

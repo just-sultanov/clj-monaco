@@ -1,0 +1,41 @@
+{
+  "name": "clj-monaco",
+  "version": "0.0.1",
+  "description": "A ClojureScript library for Monaco Editor",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack",
+    "watch": "npx webpack --watch",
+    "start": "node ./node_modules/http-server/bin/http-server dev/resources/public -p 9500",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=13.1.0",
+    "npm": ">=6.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/just-sultanov/clj-monaco.git"
+  },
+  "keywords": [
+    "clojure",
+    "clojurescript",
+    "monaco",
+    "monaco-editor"
+  ],
+  "author": "Ilshat Sultanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/just-sultanov/clj-monaco/issues"
+  },
+  "homepage": "https://github.com/just-sultanov/clj-monaco",
+  "dependencies": {
+    "monaco-editor": "^0.18.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "monaco-editor-webpack-plugin": "^1.7.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}

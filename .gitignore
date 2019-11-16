@@ -1,0 +1,12 @@
+.cljs_node_repl
+.cpcache
+.idea
+dev/resources/public/assets
+node_modules
+out
+target
+.eastwood
+.nrepl-port
+*.iml
+*.jar
+pom.xml
