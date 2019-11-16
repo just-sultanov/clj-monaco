@@ -1,7 +1,7 @@
 ^{:npm {:bundles {"dev/resources/public/assets/js/index.min.js" "src/index.js"}}}
 
-{:main            monaco.core
- :output-to       "dev/resources/public/assets/js/monaco.min.js"
+{:main            clj-monaco.core
+ :output-to       "dev/resources/public/assets/js/clj_monaco.min.js"
  :optimizations   :advanced
  :source-map      false
  :pretty-print    false

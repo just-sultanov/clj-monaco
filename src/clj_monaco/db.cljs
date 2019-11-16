@@ -1,4 +1,4 @@
-(ns monaco.db
+(ns clj-monaco.db
   (:require
     [re-frame.core :as rf]))
 

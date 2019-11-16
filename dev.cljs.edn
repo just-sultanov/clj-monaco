@@ -1,11 +1,13 @@
-^{:watch-dirs       ["src" "test/src"]
+^{:watch-dirs       ["src" "dev/src" "test/src"]
   :css-dirs         ["dev/resources/public/assets/styles"]
   :npm              {:bundles {"dev/resources/public/assets/js/index.min.js" "src/index.js"}}
   :auto-testing     true
-  :extra-main-files {:tests {:main monaco.test-runner}}}
+  :extra-main-files {:monaco  {:main clj-monaco.core}
+                     :test    {:main clj-monaco.test-runner}
+                     :example {:main clj-monaco.example}}}
 
-{:main            monaco.core
- :output-to       "dev/resources/public/assets/js/monaco.min.js"
+{:main            clj-monaco.core
+ :output-to       "dev/resources/public/assets/js/clj_monaco.min.js"
  :optimizations   :none
  :source-map      true
  :pretty-print    true

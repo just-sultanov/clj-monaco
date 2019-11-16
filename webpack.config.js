@@ -1,12 +1,16 @@
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: './src/index.js',
   output: {
     filename: 'index.min.js',
-    path: __dirname + '/dev/resources/public/assets/js'
+    path: path.resolve(__dirname, 'dev/resources/public/assets/js')
   },
-  plugins: [
-    new MonacoWebpackPlugin()
-  ]
+  module: {
+    rules: [{
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    }]
+  }
 };
