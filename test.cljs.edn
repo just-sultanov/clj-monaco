@@ -1,4 +1,4 @@
-^{:launch-js "./bin/chromium"}
+^{:launch-js "./bin/chrome"}
 
 {:main            monaco.test-runner
  :closure-defines {goog.DEBUG true}}

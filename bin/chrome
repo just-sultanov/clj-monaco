@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# MacOS
+if [[ -f  /Applications/Chromium.app/Contents/MacOS/Chromium ]]; then
+    chrome=/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+else
+    chrome="/opt/google/chrome/chrome"
+fi
+
+exec "$chrome" --headless --disable-gpu --repl "$@"
