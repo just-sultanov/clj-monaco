@@ -1,3 +1,4 @@
+.clj-kondo/.cache
 .cljs_node_repl
 .cpcache
 .idea
@@ -10,3 +11,4 @@ target
 *.iml
 *.jar
 pom.xml
+trace.edn
