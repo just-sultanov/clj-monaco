@@ -21,7 +21,7 @@ clean: ## Clean
 	@echo "=================================================================="
 	@echo "Clean..."
 	@echo "=================================================================="
-	rm -rf pom.xml clj-monaco.jar target out .cljs_node_repl
+	rm -rf pom.xml clj-monaco.jar target out .cljs_node_repl dev/resources/public/assets/js/*.js
 	@echo -e "\n"
 
 
@@ -80,6 +80,13 @@ install: ## Install locally
 	@echo "=================================================================="
 	clojure -A:install
 	@echo -e "\n"
+
+
+release: ## Release a new version
+	@echo "=================================================================="
+	@echo "Release a new version..."
+	@echo "=================================================================="
+	git push origin --tags
 
 
 deploy: ## Deploy to clojars
