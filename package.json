@@ -30,11 +30,12 @@
   },
   "homepage": "https://github.com/just-sultanov/clj-monaco",
   "devDependencies": {
-    "css-loader": "^3.2.0",
-    "http-server": "^0.11.1",
-    "monaco-editor-core": "^0.18.1",
-    "style-loader": "^1.0.0",
-    "webpack": "^4.41.2",
+    "css-loader": "^3.4.0",
+    "http-server": "^0.12.0",
+    "ignore-loader": "^0.1.2",
+    "monaco-editor-core": "^0.19.0",
+    "style-loader": "^1.1.2",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   }
 }

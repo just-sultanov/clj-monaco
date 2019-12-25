@@ -8,9 +8,22 @@ module.exports = {
     path: path.resolve(__dirname, 'dev/resources/public/assets/js')
   },
   module: {
-    rules: [{
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader']
-    }]
+    rules: [
+      {
+        test: /(\.woff|\.woff2)$/,
+        loader: 'ignore-loader'
+      },
+      {
+        test: /\.ttf$/,
+        loader: 'ignore-loader'
+      },
+      {
+        test: /\.eot$/,
+        loader: 'ignore-loader'
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }]
   }
 };
