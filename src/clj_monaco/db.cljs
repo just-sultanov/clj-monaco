@@ -5,8 +5,8 @@
 (rf/reg-event-db
   ::init
   (fn [_ _]
-    {:text     "(or 1 2)"
-     :language "modelizer"}))
+    {:text     "(or 1 2 3)"
+     :language "clojure"}))
 
 (rf/reg-sub
   ::language

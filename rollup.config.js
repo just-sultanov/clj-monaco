@@ -7,7 +7,7 @@ export default [
   {
     input: "./dev/src/index.js",
     output: {
-      dir: "./dev/resources/public/assets/",
+      dir: "./dev/resources/public/assets/js/dev",
       format: "esm"
     },
     plugins: [
@@ -19,7 +19,7 @@ export default [
   {
     input: "./dev/src/index.js",
     output: {
-      dir: "./dev/resources/public/assets/min",
+      dir: "./dev/resources/public/assets/js/min",
       format: "esm"
     },
     plugins: [

@@ -4,16 +4,11 @@
     <title>clj-monaco</title>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link rel="stylesheet" href="assets/index.css" />
+    <link rel="stylesheet" href="assets/js/min/index.css" />
   </head>
   <body>
-    <div id="container" style="height: 100vh;"></div>
-    <script src="assets/index.js"></script>
-    <script>
-      monaco.editor.create(document.getElementById("container"), {
-        value: "(+ 1 2)",
-        language: "clojure"
-      });
-    </script>
+    <div id="root"></div>
+    <script src="assets/js/min/index.js"></script>
+    <script src="assets/js/main.js"></script>
   </body>
 </html>
