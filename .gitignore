@@ -1,3 +1,4 @@
+.cache
 .clj-kondo/.cache
 .cljs_node_repl
 .cpcache
@@ -8,7 +9,8 @@ out
 target
 .eastwood
 .nrepl-port
-*.iml
 *.jar
+*.iml
+.shadow-cljs
 pom.xml
 trace.edn

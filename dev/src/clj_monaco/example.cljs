@@ -1,30 +1,30 @@
-(ns ^:figwheel-hooks
-  clj-monaco.example
+(ns clj-monaco.example
   (:require
     [reagent.core :as r]
     [re-frame.core :as rf]
-    [cljs-bean.core :as b]
     [clj-monaco.db :as db]
     [clj-monaco.core :as m]))
 
 (defn root []
-  (r/create-class
-    {:name                "root"
-     :component-did-mount (fn [this]
-                            (let [el (r/dom-node this)]
-                              (.create (m/editor) el (b/->js {:value    "(println \"Hello, world!\")"
-                                                              :language "clojure"}))))
-     :reagent-render      (fn []
-                            [:div#editor {:style {:height "200px"}}])}))
+  (let [text     (rf/subscribe [::db/text])
+        language (rf/subscribe [::db/language])]
+    (fn []
+      (r/create-class
+        {:name                "root"
+         :component-did-mount (fn [this]
+                                (let [el (r/dom-node this)]
+                                  (m/create-editor el {:value @text, :language @language})))
+         :reagent-render      (fn []
+                                [:div#editor {:style {:height "200px"}}])}))))
 
 
 (defn mount-root
   "Mount root component."
-  {:after-load true}
+  {:dev/after-load true}
   []
   (rf/clear-subscription-cache!)
   (r/render [root]
-            (.getElementById js/document "root")))
+    (.getElementById js/document "root")))
 
 
 (defn init

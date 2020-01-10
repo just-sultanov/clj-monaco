@@ -21,7 +21,7 @@ clean: ## Clean
 	@echo "=================================================================="
 	@echo "Clean..."
 	@echo "=================================================================="
-	rm -rf pom.xml clj-monaco.jar target out .cljs_node_repl dev/resources/public/assets/js/*.js
+	rm -rf pom.xml clj-monaco.jar target out .cljs_node_repl .shadow-cljs dev/resources/public/assets
 	@echo -e "\n"
 
 

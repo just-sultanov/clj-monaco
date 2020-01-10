@@ -1,4 +1,0 @@
-^{:launch-js "./bin/chrome"}
-
-{:main            clj-monaco.test-runner
- :closure-defines {goog.DEBUG true}}
