@@ -4,12 +4,11 @@ const typescript = require("rollup-plugin-typescript2");
 const { terser } = require("rollup-plugin-terser");
 
 const production = !process.env.ROLLUP_WATCH;
-const assetsPath = "dev/resources/public/assets/js/";
 
 export default {
-  input: "dev/src/index.js",
+  input: "src/dev/index.js",
   output: {
-    dir: assetsPath,
+    dir: "public/js",
     format: "esm"
   },
   plugins: [

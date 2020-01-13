@@ -3,7 +3,8 @@
 .cljs_node_repl
 .cpcache
 .idea
-dev/resources/public/assets
+public/js
+public/test/js
 node_modules
 out
 target
@@ -14,3 +15,6 @@ target
 .shadow-cljs
 pom.xml
 trace.edn
+
+!public/index.html
+!public/test/index.html

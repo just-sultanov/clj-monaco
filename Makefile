@@ -13,15 +13,15 @@ help: ## Show help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 
-repl: ## Run nREPL
-	clj -A:repl
+dev: ## Run application in development mode
+	npm run dev
 
 
 clean: ## Clean
 	@echo "=================================================================="
 	@echo "Clean..."
 	@echo "=================================================================="
-	rm -rf pom.xml clj-monaco.jar target out .cljs_node_repl .shadow-cljs dev/resources/public/assets
+	rm -rf pom.xml clj-monaco.jar target out .cljs_node_repl .shadow-cljs public/js public/test/js
 	@echo -e "\n"
 
 
@@ -29,7 +29,7 @@ lint: ## Run linter
 	@echo "=================================================================="
 	@echo "Run linter..."
 	@echo "=================================================================="
-	clj-kondo --lint src:test
+	clj-kondo --lint src
 	@echo -e "\n"
 
 
@@ -37,15 +37,7 @@ test: ## Run tests
 	@echo "=================================================================="
 	@echo "Run tests..."
 	@echo "=================================================================="
-	clojure -A:test
-	@echo -e "\n"
-
-
-min: ## Build min
-	@echo "=================================================================="
-	@echo "Build min..."
-	@echo "=================================================================="
-	clojure -A:min
+	npm run test
 	@echo -e "\n"
 
 

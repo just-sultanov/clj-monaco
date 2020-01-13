@@ -2,16 +2,18 @@
   "name": "clj-monaco",
   "version": "0.0.1",
   "description": "A ClojureScript library for Monaco Editor",
-  "main": "./dev/src/index.js",
+  "main": "",
   "scripts": {
-    "shadow:watch": "shadow-cljs watch app",
-    "shadow:build": "shadow-cljs release app",
-    "shadow:server": "shadow-cljs server",
-    "monaco:watch": "rollup -c -w",
-    "monaco:build": "rollup -c",
-    "dev": "run-p monaco:watch shadow:watch",
-    "build": "run-s monaco:build shadow:build",
-    "serve": "npx http-server ./dev/resources/public -p 3000"
+    "shadow:watch": "npx shadow-cljs watch app test",
+    "shadow:build": "npx shadow-cljs release app",
+    "shadow:server": "npx shadow-cljs server",
+    "monaco:watch": "npx rollup -c -w",
+    "monaco:build": "npx rollup -c",
+    "test:build": "npx shadow-cljs compile ci",
+    "test:watch": "npx shadow-cljs watch test",
+    "dev": "npx run-p monaco:watch shadow:watch",
+    "build": "npx run-s monaco:build shadow:build",
+    "serve": "npx http-server ./public -p 3000"
   },
   "engines": {
     "node": ">=13.6.0",

@@ -32,8 +32,11 @@ You can see full examples link:dev/src/monaco/example.cljs[here].
 [source,bash]
 ----
 # Run nREPL & connect from your IDE
-$ make repl
-nREPL server started on port 7888 on host localhost - nrepl://localhost:7888
+$ make dev
+
+# Application: http://localhost:3000 or http://localhost:3000/index.html
+# Tests: http://localhost:3001/test/ or http://localhost:3001/test/index.html
+# REPL: nrepl://localhost:7888
 ----
 
 === Testing
@@ -61,11 +64,10 @@ $ make release
 ----
 $ make help
 help                           Show help
-repl                           Run nREPL
+dev                            Run application in development mode
 clean                          Clean
 lint                           Run linter
 test                           Run tests
-min                            Build min
 build                          Build jar
 init                           Init first version
 patch                          Increment patch version

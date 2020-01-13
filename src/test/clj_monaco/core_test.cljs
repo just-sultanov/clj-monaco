@@ -1,6 +1,6 @@
 (ns clj-monaco.core-test
   (:require
-    [clojure.test :refer [deftest is]]
+    [cljs.test :refer-macros [deftest is]]
     [clj-monaco.core :as sut]))
 
 (deftest ^:unit square-test
