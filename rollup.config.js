@@ -1,32 +1,24 @@
-import postcss from "rollup-plugin-postcss";
-import resolve from "@rollup/plugin-node-resolve";
-import typescript from "rollup-plugin-typescript2";
-import { terser } from "rollup-plugin-terser";
+const postcss = require("rollup-plugin-postcss");
+const resolve = require("@rollup/plugin-node-resolve");
+const typescript = require("rollup-plugin-typescript2");
+const { terser } = require("rollup-plugin-terser");
 
-export default [
-  {
-    input: "./dev/src/index.js",
-    output: {
-      dir: "./dev/resources/public/assets/js/dev",
-      format: "esm"
-    },
-    plugins: [
-      resolve(),
-      postcss({ extract: true }),
-      typescript({ objectHashIgnoreUnknownHack: true })
-    ]
+const production = !process.env.ROLLUP_WATCH;
+const assetsPath = "dev/resources/public/assets/js/";
+
+export default {
+  input: "dev/src/index.js",
+  output: {
+    dir: assetsPath,
+    format: "esm"
   },
-  {
-    input: "./dev/src/index.js",
-    output: {
-      dir: "./dev/resources/public/assets/js/min",
-      format: "esm"
-    },
-    plugins: [
-      resolve(),
-      postcss({ extract: true, minimize: true }),
-      typescript({ objectHashIgnoreUnknownHack: true }),
-      terser()
-    ]
-  }
-];
+  plugins: [
+    resolve(),
+    postcss({
+      extract: true,
+      minimize: production
+    }),
+    typescript({ objectHashIgnoreUnknownHack: true }),
+    production && terser()
+  ]
+};
