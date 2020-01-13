@@ -13,7 +13,7 @@ jobs:
       - name: Run linter
         uses: DeLaGuardo/clojure-lint-action@v1
         with:
-          clj-kondo-args: --lint src:test
+          clj-kondo-args: --lint src
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
 

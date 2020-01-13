@@ -10,7 +10,7 @@ jobs:
       - name: Run linter
         uses: DeLaGuardo/clojure-lint-action@v1
         with:
-          clj-kondo-args: --lint src:test
+          clj-kondo-args: --lint src
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
@@ -41,8 +41,8 @@ jobs:
       - name: Run clean
         run: make clean
 
-      - name: Run tests
-        run: make test
-
-      - name: Run build
-        run: make build
+#      - name: Run tests
+#        run: make test
+#
+#      - name: Run build
+#        run: make build
