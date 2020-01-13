@@ -4,12 +4,14 @@
   "description": "A ClojureScript library for Monaco Editor",
   "main": "./dev/src/index.js",
   "scripts": {
-    "shadow:dev": "shadow-cljs watch app",
-    "shadow:release": "shadow-cljs release app",
+    "shadow:watch": "shadow-cljs watch app",
+    "shadow:build": "shadow-cljs release app",
     "shadow:server": "shadow-cljs server",
-    "server": "npx http-server ./dev/resources/public -p 3000",
-    "monaco:watch": "rollup -c rollup.config.js --watch",
-    "monaco:build": "rollup -c rollup.config.js"
+    "monaco:watch": "rollup -c -w",
+    "monaco:build": "rollup -c",
+    "dev": "run-p monaco:watch shadow:watch",
+    "build": "run-s monaco:build shadow:build",
+    "serve": "npx http-server ./dev/resources/public -p 3000"
   },
   "engines": {
     "node": ">=13.6.0",
