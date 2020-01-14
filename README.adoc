@@ -25,7 +25,15 @@ Add the following dependency in your project:
 
 === Examples
 
-You can see full examples link:dev/src/monaco/example.cljs[here].
+You can see full examples link:src/dev/clj_monaco/example.cljs[here].
+
+=== Requirements
+
+[source,bash]
+----
+# Install npm deps
+$ npm i
+----
 
 === Development
 
@@ -43,7 +51,10 @@ $ make dev
 
 [source,bash]
 ----
-# Run tests
+# Run tests with shadow-cljs via Chrome
+$ npx run-s monaco:build test:watch
+
+# Run tests with karma via Chrome Headless
 $ make test
 ----
 

@@ -27,4 +27,7 @@
 
                        :compiler-options {:closure-defines {goog.DEBUG                           true
                                                             re-frame.trace.trace-enabled?        true
-                                                            day8.re-frame.tracing.trace-enabled? true}}}}}
+                                                            day8.re-frame.tracing.trace-enabled? true}}}
+
+                :ci   {:target    :karma
+                       :output-to "public/test/js/ci.js"}}}
