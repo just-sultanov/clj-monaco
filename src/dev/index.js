@@ -1,1 +1,1 @@
-import "./index.pcss";
+import "./index.css";
