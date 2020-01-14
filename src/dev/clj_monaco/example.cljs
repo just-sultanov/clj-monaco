@@ -2,20 +2,43 @@
   (:require
     [reagent.core :as r]
     [re-frame.core :as rf]
-    [clj-monaco.db :as db]
     [clj-monaco.core :as m]))
 
+(rf/reg-event-db
+  ::init
+  (fn [_ _]
+    {:language "clojure"
+     :theme    "vs-dark"
+     :text     "(or 1 2 3)"}))
+
+(rf/reg-sub
+  ::language
+  (fn [db]
+    (:language db)))
+
+(rf/reg-sub
+  ::theme
+  (fn [db]
+    (:theme db)))
+
+(rf/reg-sub
+  ::text
+  (fn [db]
+    (:text db)))
+
+
 (defn root []
-  (let [text     (rf/subscribe [::db/text])
-        language (rf/subscribe [::db/language])]
+  (let [text     (rf/subscribe [::text])
+        theme    (rf/subscribe [::theme])
+        language (rf/subscribe [::language])]
     (fn []
       (r/create-class
         {:name                "root"
          :component-did-mount (fn [this]
                                 (let [el (r/dom-node this)]
-                                  (m/create-editor el {:value @text, :language @language})))
+                                  (m/create-editor el {:value @text, :language @language, :theme @theme})))
          :reagent-render      (fn []
-                                [:div#editor {:style {:height "200px"}}])}))))
+                                [:div#editor {:style {:height "100vh"}}])}))))
 
 
 (defn mount-root
@@ -31,5 +54,5 @@
   "Monaco UI initializer."
   {:export true}
   []
-  (rf/dispatch-sync [::db/init])
+  (rf/dispatch-sync [::init])
   (mount-root))
