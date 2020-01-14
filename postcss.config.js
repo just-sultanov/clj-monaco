@@ -12,8 +12,7 @@ module.exports = {
       filter: "**/*.ttf",
       url: "copy",
       basePath: ".",
-      assetsPath: assetsPath,
-      useHash: true
+      assetsPath: assetsPath
     }),
     postcssUrl({
       filter: "**/*.ttf",

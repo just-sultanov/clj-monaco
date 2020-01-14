@@ -2,7 +2,7 @@ module.exports = function(config) {
   config.set({
     browsers: ["ChromeHeadless"],
     basePath: "public",
-    files: ["js/index.js", "test/js/ci.js"],
+    files: ["js/monaco.js", "js/index.js", "test/js/ci.js"],
     frameworks: ["cljs-test"],
     plugins: ["karma-cljs-test", "karma-chrome-launcher"],
     colors: true,
