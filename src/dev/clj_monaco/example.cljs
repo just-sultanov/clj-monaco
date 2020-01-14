@@ -8,7 +8,7 @@
   ::init
   (fn [_ _]
     {:language "clojure"
-     :theme    "vs-dark"
+     :theme    "vs"
      :text     "(or 1 2 3)"}))
 
 (rf/reg-sub
