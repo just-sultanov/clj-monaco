@@ -47,6 +47,7 @@
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "@rollup/plugin-url": "^4.0.1",
+    "@tailwindcss/custom-forms": "^0.2.1",
     "autoprefixer": "^9.7.3",
     "highlight.js": "9.17.1",
     "http-server": "^0.12.1",
