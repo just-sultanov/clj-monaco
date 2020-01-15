@@ -2,7 +2,11 @@
   (:require
     [reagent.core :as r]
     [re-frame.core :as rf]
-    [clj-monaco.core :as m]))
+    [cljs-bean.core :as b]
+    [applied-science.js-interop :as j]))
+
+(def monaco js/monaco)
+(def monaco-editor (j/get js/monaco "editor"))
 
 (rf/reg-event-db
   ::init
@@ -46,7 +50,7 @@
       (r/create-class
         {:component-did-mount
          (fn [this]
-           (m/create-editor (r/dom-node this) default-props))
+           (j/call monaco-editor :create (r/dom-node this) (b/->js default-props)))
 
          :render
          (fn []
@@ -56,15 +60,15 @@
 
 (defn root []
   [:div.m-6
-   [:h1.text-gray-700 "Monaco Editor"]
-   [:div.mt-6.mb-10.flex.justify-start.w-full
+   [:h1 "Monaco Editor"]
+   [:div.mt-6.mb-10.flex.flex-auto.w-full
     [:div.mr-2
-     [:span.text-gray-700 "Theme:"]
+     [:span "Theme:"]
      [:select.form-select.mt-1.block
       [:option "Light"]
       [:option "Dark"]]]
     [:div.mr-2
-     [:span.text-gray-700 "Language:"]
+     [:span "Language:"]
      [:select.form-select.mt-1.block
       [:option "Clojure"]]]]
    [editor]])
