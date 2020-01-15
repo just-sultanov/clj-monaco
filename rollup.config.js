@@ -18,7 +18,6 @@ export default [
       commonjs(),
       postcss({
         extract: true,
-        modules: true,
         minimize: production
       }),
       production && terser()
@@ -36,7 +35,6 @@ export default [
       commonjs(),
       postcss({
         extract: true,
-        modules: true,
         minimize: production
       }),
       production && terser()
