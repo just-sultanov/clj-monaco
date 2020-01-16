@@ -105,7 +105,7 @@
              (j/call monaco-editor :create el (b/->js (merge default-props props)))))
 
          :render
-         (fn [props]
+         (fn [_]
            [:div.editor-wrapper {:ref (fn [el]
                                         (reset! ref el))}])}))))
 
