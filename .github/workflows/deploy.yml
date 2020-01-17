@@ -39,9 +39,6 @@ jobs:
         with:
           node-version: '13'
 
-      - name: Install npm deps
-        run: npm install
-
       - name: Cache clojure deps
         uses: actions/cache@v1
         with:
@@ -57,6 +54,9 @@ jobs:
           key: npm-${{ hashFiles('**/package.json') }}
           restore-keys: |
             npm-
+
+      - name: Install npm deps
+        run: npm install
 
       - name: Run clean
         run: make clean
