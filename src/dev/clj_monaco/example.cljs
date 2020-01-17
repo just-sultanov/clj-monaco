@@ -39,14 +39,14 @@
                  :autoIndent       true
                  :options          {}
                  :editorDidMount   (fn [editor monaco]
-                                     (js/console.log :user-defined :editorDidMount)
+                                     (js/console.log :editorDidMount :user-defined)
                                      (js/console.log :editor editor :monaco monaco)
                                      (j/call editor :focus))
                  :editorWillMount  (fn [monaco]
-                                     (js/console.log :user-defined :editorWillMount)
+                                     (js/console.log :editorWillMount :user-defined)
                                      (js/console.log :monaco monaco))
                  :onChange         (fn [new-value event]
-                                     (js/console.log :user-defined :onChange)
+                                     (js/console.log :onChange :user-defined)
                                      (js/console.log :new-value new-value :event event))
                  :overrideServices {}}}))
 
@@ -96,6 +96,7 @@
 (rf/reg-event-db
   ::set-value
   (fn [db [_ value]]
+    (js/console.log :set-value value)
     (assoc-in db [:settings :value] value)))
 
 
@@ -109,41 +110,43 @@
         assign-ref        (fn [component]
                             (reset! *ref component))
         editor-did-mount  (fn [this editor]
-                            (js/console.log :editor-did-mount :this this :editor editor)
-
+                            (js/console.log :editor-did-mount :editor editor)
                             (let [props (r/props this)]
-
                               (when-some [f (:editorDidMount props)]
-                                (js/console.log :invoke :editorDidMount)
                                 (f editor monaco))
+                              (j/assoc! this :_subscription
+                                (j/call editor :onDidChangeModelContent
+                                  (fn [event]
+                                    (when (j/get this :__prevent_trigger_change_event)
+                                      (when-some [f (:onChange props)]
+                                        (f (j/get editor :getValue) event))))))))
 
-                              #_(j/assoc! this :_subscription
-                                  (j/call editor :onDidChangeModelContent
-                                    (fn [event]
-                                      (when (j/get this :__prevent_trigger_change_event)
-                                        (j/call props :onChange
-                                          (j/get editor :getValue)
-                                          event)))))))
-
-        editor-will-mount (fn [editor]
-                            (js/console.log :editor-wil-mount :editor editor))
+        editor-will-mount (fn [this editor]
+                            (js/console.log :editor-will-mount :editor editor)
+                            (let [props (r/props this)]
+                              (when-some [f (:editorWillMount props)]
+                                (or (f monaco) (b/->js {})))))
 
         did-mount         (fn [this]
                             (when-some [ref @*ref]
                               (let [props  (r/props this)
-                                    opts   (-> settings (merge props) (assoc :editorWillMount editor-will-mount))
+                                    opts   (-> settings (merge props) (assoc :editorWillMount (partial editor-will-mount this)))
                                     editor (j/call monaco-editor :create ref (b/->js opts))]
                                 (j/assoc! this :editor editor)
                                 (editor-did-mount this editor))))
 
+
         did-update        (fn [this old-argv]
-                            (let [editor    (j/get this :editor)
-                                  old-props (second old-argv)
-                                  new-props (second (r/argv this))
-                                  model     (j/call editor :getModel)
+                            (let [editor      (j/get this :editor)
+                                  old-props   (second old-argv)
+                                  new-props   (second (r/argv this))
+                                  model       (j/call editor :getModel)
+                                  model-value (j/call model :getValue)
                                   {:keys [value theme language options width height]} new-props]
 
-                              (when (and value (not= value (j/call model :getValue)))
+                              (js/console.log :value value :getValue model-value)
+
+                              (when (and value (not= value model-value))
                                 (j/assoc! this :__prevent_trigger_change_event true)
                                 (j/call editor :pushUndoStop)
                                 (j/call model :pushEditOperations
@@ -162,8 +165,7 @@
                               (when (not= options (:options old-props))
                                 (j/call editor :updateOptions options))
 
-                              (when (or
-                                      (not= width (:width old-props))
+                              (when (or (not= width (:width old-props))
                                       (not= height (:height old-props)))
                                 (j/call editor :layout))))
 
@@ -174,9 +176,8 @@
                               (when-some [model (j/call editor :getModel)]
                                 (j/call model :dispose)))
 
-                            (when-some [subscription (j/get this :_subscription)]
-                              (js/console.log :sub :dispose)
-                              (j/call subscription :dispose)))
+                            (when-some [sub (j/get this :_subscription)]
+                              (j/call sub :dispose)))
 
         render            (fn []
                             [:div.editor-wrapper {:ref assign-ref}])]
