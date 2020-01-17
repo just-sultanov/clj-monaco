@@ -31,23 +31,16 @@
                  "hc-black" "High Contrast"}
      :settings  {:width            "100%"
                  :height           "100%"
-                 :value            "(+ 1 2 3)"
+                 :value            ""
                  :defaultValue     ""
                  :language         "clojure"
                  :theme            "vs"
                  :minimap          {:enabled false}
                  :autoIndent       true
                  :options          {}
-                 :editorDidMount   (fn [editor monaco]
-                                     (js/console.log :editorDidMount :user-defined)
-                                     (js/console.log :editor editor :monaco monaco)
-                                     (j/call editor :focus))
-                 :editorWillMount  (fn [monaco]
-                                     (js/console.log :editorWillMount :user-defined)
-                                     (js/console.log :monaco monaco))
-                 :onChange         (fn [new-value event]
-                                     (js/console.log :onChange :user-defined)
-                                     (js/console.log :new-value new-value :event event))
+                 :editorDidMount   (fn [editor monaco] (j/call editor :focus))
+                 :editorWillMount  (fn [monaco])
+                 :onChange         (fn [new-value event] (rf/dispatch [::set-value new-value]))
                  :overrideServices {}}}))
 
 (rf/reg-sub
@@ -96,7 +89,6 @@
 (rf/reg-event-db
   ::set-value
   (fn [db [_ value]]
-    (js/console.log :set-value value)
     (assoc-in db [:settings :value] value)))
 
 
@@ -107,22 +99,22 @@
 
 (defn editor-wrapper [settings]
   (let [*ref              (atom nil)
+
         assign-ref        (fn [component]
                             (reset! *ref component))
+
         editor-did-mount  (fn [this editor]
-                            (js/console.log :editor-did-mount :editor editor)
                             (let [props (r/props this)]
                               (when-some [f (:editorDidMount props)]
                                 (f editor monaco))
-                              (j/assoc! this :_subscription
+                              (j/assoc! this :__subscription
                                 (j/call editor :onDidChangeModelContent
                                   (fn [event]
-                                    (when (j/get this :__prevent_trigger_change_event)
+                                    (when-not (j/get this :__preventTriggerChangeEvent)
                                       (when-some [f (:onChange props)]
-                                        (f (j/get editor :getValue) event))))))))
+                                        (f (j/call editor :getValue) event))))))))
 
         editor-will-mount (fn [this editor]
-                            (js/console.log :editor-will-mount :editor editor)
                             (let [props (r/props this)]
                               (when-some [f (:editorWillMount props)]
                                 (or (f monaco) (b/->js {})))))
@@ -135,26 +127,23 @@
                                 (j/assoc! this :editor editor)
                                 (editor-did-mount this editor))))
 
-
         did-update        (fn [this old-argv]
                             (let [editor      (j/get this :editor)
                                   old-props   (second old-argv)
-                                  new-props   (second (r/argv this))
+                                  props       (r/props this)
                                   model       (j/call editor :getModel)
                                   model-value (j/call model :getValue)
-                                  {:keys [value theme language options width height]} new-props]
-
-                              (js/console.log :value value :getValue model-value)
+                                  {:keys [value theme language options width height]} props]
 
                               (when (and value (not= value model-value))
-                                (j/assoc! this :__prevent_trigger_change_event true)
+                                (j/assoc! this :__preventTriggerChangeEvent true)
                                 (j/call editor :pushUndoStop)
                                 (j/call model :pushEditOperations
-                                  (b/->js [])                                   ;; beforeCursorState
+                                  (b/->js [])
                                   (b/->js [{:range (j/call model :getFullModelRange)
-                                            :text  value}]))                    ;; editOperations
+                                            :text  value}]))
                                 (j/call editor :pushUndoStop)
-                                (j/assoc! this :__prevent_trigger_change_event false))
+                                (j/assoc! this :__preventTriggerChangeEvent false))
 
                               (when (not= language (:language old-props))
                                 (j/call monaco-editor :setModelLanguage model language))
@@ -176,12 +165,12 @@
                               (when-some [model (j/call editor :getModel)]
                                 (j/call model :dispose)))
 
-                            (when-some [sub (j/get this :_subscription)]
+                            (when-some [sub (j/get this :__subscription)]
                               (j/call sub :dispose)))
 
-        render            (fn []
+        render            (fn [_]
                             [:div.editor-wrapper {:ref assign-ref}])]
-    (fn []
+    (fn [_]
       (r/create-class
         {:display-name           "monaco-editor"
          :component-did-mount    did-mount
