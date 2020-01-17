@@ -29,19 +29,23 @@
      :themes    {"vs"       "Light"
                  "vs-dark"  "Dark"
                  "hc-black" "High Contrast"}
-     :settings  {:width            "100%"
-                 :height           "100%"
-                 :value            ""
-                 :defaultValue     ""
-                 :language         "clojure"
-                 :theme            "vs"
-                 :minimap          {:enabled false}
-                 :autoIndent       true
-                 :options          {}
-                 :editorDidMount   (fn [editor monaco] (j/call editor :focus))
-                 :editorWillMount  (fn [monaco])
-                 :onChange         (fn [new-value event] (rf/dispatch [::set-value new-value]))
-                 :overrideServices {}}}))
+     :settings  {:width               "100%"
+                 :height              "100%"
+                 :value               "(defn square [x]\n  (* x x))\n\n\n(comment \n  (square 2)\n  )"
+                 :defaultValue        ""
+                 :language            "clojure"
+                 :theme               "vs"
+                 :minimap             {:enabled true}
+                 :autoIndent          true
+                 :selectOnLineNumbers true
+                 :roundedSelection    false
+                 :readOnly            false
+                 :cursorStyle         "line"
+                 :automaticLayout     false
+                 :editorDidMount      (fn [editor monaco] (j/call editor :focus))
+                 :editorWillMount     (fn [monaco])
+                 :onChange            (fn [new-value event] (rf/dispatch [::set-value new-value]))
+                 :overrideServices    {}}}))
 
 (rf/reg-sub
   ::languages
