@@ -1,1 +1,1 @@
-{:output {:exclude-files ["test/src/clj_monaco/test_runner.cljs"]}}
+{:output {:exclude-files ["src/dev/clj_monaco/example.cljs"]}}
