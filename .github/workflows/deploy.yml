@@ -32,7 +32,7 @@ jobs:
       - name: Setup clojure
         uses: DeLaGuardo/setup-clojure@2.0
         with:
-          tools-deps: '1.10.1.492'
+          tools-deps: latest
 
       - name: Setup node
         uses: actions/setup-node@v1
@@ -83,7 +83,7 @@ jobs:
       - name: Setup clojure
         uses: DeLaGuardo/setup-clojure@2.0
         with:
-          tools-deps: '1.10.1.492'
+          tools-deps: latest
 
       - name: Run clean
         run: make clean
