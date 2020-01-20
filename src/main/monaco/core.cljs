@@ -20,6 +20,9 @@
 (defn define-theme [theme-name theme-data]
   (j/call monaco-editor :defineTheme theme-name (b/->js theme-data)))
 
+(defn focus [editor]
+  (j/call editor :focus))
+
 (defn set-model-language [model language-id]
   (j/call monaco-editor :setModelLanguage model language-id))
 

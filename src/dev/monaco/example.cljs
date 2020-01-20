@@ -32,11 +32,11 @@
   {:provideCompletionItems (fn []
                              {:suggestions [{:label      "simpleText"
                                              :insertText "simpleText"
-                                             :kind       (j/get-in monaco/monaco [:editor :CompletionItemKind :Text])}
+                                             :kind       (j/get-in monaco/monaco-editor [:CompletionItemKind :Text])}
                                             {:label           "testing"
                                              :insertText      "testing(${1:condition})"
-                                             :insertTextRules (j/get-in monaco/monaco [:editor :CompletionItemKind :Keyword])
-                                             :kind            (j/get-in monaco/monaco [:editor :CompletionItemInsertTextRule :InsertAsSnippet])}]})})
+                                             :insertTextRules (j/get-in monaco/monaco-editor [:CompletionItemKind :Keyword])
+                                             :kind            (j/get-in monaco/monaco-editor [:CompletionItemInsertTextRule :InsertAsSnippet])}]})})
 
 (monaco/define-theme "custom"
   {:base    "vs"
@@ -73,7 +73,7 @@
                  :readOnly            false
                  :cursorStyle         "line"
                  :automaticLayout     false
-                 :editorDidMount      (fn [editor monaco] (j/call editor :focus))
+                 :editorDidMount      (fn [editor monaco] (monaco/focus editor))
                  :editorWillMount     (fn [monaco])
                  :onChange            (fn [new-value event] (rf/dispatch [::set-value new-value]))
                  :overrideServices    {}}}))
