@@ -25,7 +25,7 @@ Add the following dependency in your project:
 
 === Examples
 
-You can see full examples link:src/dev/clj_monaco/example.cljs[here].
+You can see full examples link:src/dev/monaco/example.cljs[here].
 
 === Requirements
 

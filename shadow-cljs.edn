@@ -9,7 +9,7 @@
                        :output-dir "public/js"
                        :asset-path "/js"
 
-                       :modules    {:main {:init-fn clj-monaco.example/init}}
+                       :modules    {:main {:init-fn monaco.example/init}}
 
                        :devtools   {:http-port 3000
                                     :http-root "public"
