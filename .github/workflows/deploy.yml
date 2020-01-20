@@ -85,6 +85,22 @@ jobs:
         with:
           tools-deps: latest
 
+      - name: Cache clojure deps
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: clojure-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            clojure-
+
+      - name: Cache npm deps
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: npm-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            npm-
+
       - name: Run clean
         run: make clean
 
