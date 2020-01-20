@@ -91,4 +91,4 @@ deploy                         Deploy to clojars
 
 === License
 
-link:LICENSE[Copyright © 2019 Ilshat Sultanov]
+link:LICENSE[Copyright © 2019-2020 Ilshat Sultanov]
