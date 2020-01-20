@@ -127,8 +127,7 @@
                                    (when (and value (not= value model-value))
                                      (j/assoc! this :__preventTriggerChangeEvent true)
                                      (push-undo-stop editor)
-                                     (push-edit-operations model [] [{:range (get-full-model-range model)
-                                                                      :text  value}])
+                                     (push-edit-operations model [] [{:text value, :range (get-full-model-range model)}])
                                      (push-undo-stop editor)
                                      (j/assoc! this :__preventTriggerChangeEvent false))
 
@@ -149,14 +148,14 @@
                                  (when-some [editor (j/get this :editor)]
                                    (dispose editor)
 
-                                   (when-some [model (j/call editor :getModel)]
+                                   (when-some [model (get-model editor)]
                                      (dispose model)))
 
                                  (when-some [sub (j/get this :__subscription)]
                                    (dispose sub)))
 
         render                 (fn [_]
-                                 [:div.editor-wrapper {:ref assign-ref}])]
+                                 [:div.monaco-editor-wrapper {:ref assign-ref}])]
     (fn [_]
       (r/create-class
         {:display-name           "monaco-editor"
