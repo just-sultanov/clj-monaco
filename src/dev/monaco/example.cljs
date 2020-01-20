@@ -20,7 +20,7 @@
 ;; Custom language
 ;;
 
-(monarch/register-language {:id "custom"})
+(monarch/register {:id "custom"})
 
 (monarch/set-monarch-tokens-provider "custom"
   {:tokenizer {:root [[#"\[error.*" "custom-error"]
@@ -38,7 +38,7 @@
                                              :insertTextRules (j/get-in monaco/monaco [:editor :CompletionItemKind :Keyword])
                                              :kind            (j/get-in monaco/monaco [:editor :CompletionItemInsertTextRule :InsertAsSnippet])}]})})
 
-(monarch/define-theme "custom"
+(monaco/define-theme "custom"
   {:base    "vs"
    :inherit false
    :rules   [{:token "custom-info" :foreground "808080"}
