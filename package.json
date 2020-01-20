@@ -1,6 +1,6 @@
 {
   "name": "clj-monaco",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A ClojureScript library for Monaco Editor",
   "main": "",
   "scripts": {
