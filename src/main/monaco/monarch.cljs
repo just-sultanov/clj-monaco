@@ -1,20 +1,19 @@
 (ns monaco.monarch
   (:require
-    [cljs-bean.core :as b]
-    [applied-science.js-interop :as j]
-    [monaco.core :as m]))
+    [monaco.core :as m]
+    [monaco.helpers :as helpers]))
 
 (defn get-encoded-language-id [language-id]
-  (j/call m/monaco-languages :getEncodedLanguageId language-id))
+  (helpers/call m/monaco-languages "getEncodedLanguageId" language-id))
 
 (defn get-languages []
-  (j/call m/monaco-languages :getLanguages))
+  (helpers/call m/monaco-languages "getLanguages"))
 
 (defn register [language]
-  (j/call m/monaco-languages :register (b/->js language)))
+  (helpers/call m/monaco-languages "register" language))
 
 (defn set-monarch-tokens-provider [language-id language]
-  (j/call m/monaco-languages :setMonarchTokensProvider language-id (b/->js language)))
+  (helpers/call m/monaco-languages "setMonarchTokensProvider" language-id language))
 
 (defn register-completion-item-provider [language-id provider]
-  (j/call m/monaco-languages :registerCompletionItemProvider language-id (b/->js provider)))
+  (helpers/call m/monaco-languages "registerCompletionItemProvider" language-id provider))

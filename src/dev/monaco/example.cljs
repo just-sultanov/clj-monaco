@@ -3,16 +3,16 @@
     [clojure.string :as str]
     [reagent.core :as r]
     [re-frame.core :as rf]
-    [applied-science.js-interop :as j]
     [monaco.core :as monaco]
-    [monaco.monarch :as monarch]))
+    [monaco.monarch :as monarch]
+    [monaco.helpers :as helpers]))
 
 ;;
 ;; Helper functions
 ;;
 
 (defn get-value [input]
-  (j/get-in input [:target :value]))
+  (helpers/get-in input ["target" "value"]))
 
 
 
@@ -20,31 +20,32 @@
 ;; Custom language
 ;;
 
-(monarch/register {:id "custom"})
+(defn register! []
+  (monarch/register {:id "custom"})
 
-(monarch/set-monarch-tokens-provider "custom"
-  {:tokenizer {:root [[#"\[error.*" "custom-error"]
-                      [#"\[notice.*" "custom-notice"]
-                      [#"\[info.*" "custom-info"]
-                      [#"\[[a-zA-Z 0-9:]+\]" "custom-date"]]}})
+  (monarch/set-monarch-tokens-provider "custom"
+    {:tokenizer {:root [[#"\[error.*" "custom-error"]
+                        [#"\[notice.*" "custom-notice"]
+                        [#"\[info.*" "custom-info"]
+                        [#"\[[a-zA-Z 0-9:]+\]" "custom-date"]]}})
 
-(monarch/register-completion-item-provider "custom"
-  {:provideCompletionItems (fn []
-                             {:suggestions [{:label      "simpleText"
-                                             :insertText "simpleText"
-                                             :kind       (j/get-in monaco/monaco-editor [:CompletionItemKind :Text])}
-                                            {:label           "testing"
-                                             :insertText      "testing(${1:condition})"
-                                             :insertTextRules (j/get-in monaco/monaco-editor [:CompletionItemKind :Keyword])
-                                             :kind            (j/get-in monaco/monaco-editor [:CompletionItemInsertTextRule :InsertAsSnippet])}]})})
+  (monarch/register-completion-item-provider "custom"
+    {:provideCompletionItems (fn []
+                               {:suggestions [{:label      "simpleText"
+                                               :insertText "simpleText"
+                                               :kind       (helpers/get-in monaco/monaco-editor ["CompletionItemKind" "Text"])}
+                                              {:label           "testing"
+                                               :insertText      "testing(${1:condition})"
+                                               :insertTextRules (helpers/get-in monaco/monaco-editor ["CompletionItemKind" "Keyword"])
+                                               :kind            (helpers/get-in monaco/monaco-editor ["CompletionItemInsertTextRule" "InsertAsSnippet"])}]})})
 
-(monaco/define-theme "custom"
-  {:base    "vs"
-   :inherit false
-   :rules   [{:token "custom-info" :foreground "808080"}
-             {:token "custom-error" :foreground "ff0000" :fontStyle "bold"}
-             {:token "custom-notice" :foreground "ffa500"}
-             {:token "custom-date" :foreground "008800"}]})
+  (monaco/define-theme "custom"
+    {:base    "vs"
+     :inherit false
+     :rules   [{:token "custom-info" :foreground "808080"}
+               {:token "custom-error" :foreground "ff0000" :fontStyle "bold"}
+               {:token "custom-notice" :foreground "ffa500"}
+               {:token "custom-date" :foreground "008800"}]}))
 
 
 
@@ -182,12 +183,13 @@
   []
   (rf/clear-subscription-cache!)
   (r/render [root]
-    (.getElementById js/document "root")))
+    (helpers/call js/document "getElementById" "root")))
 
 
 (defn init
   "Monaco UI initializer."
   {:export true}
   []
+  (register!)
   (rf/dispatch-sync [::init])
   (mount-root))

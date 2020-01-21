@@ -1,12 +1,11 @@
 (ns monaco.core
   (:require
     [reagent.core :as r]
-    [cljs-bean.core :as b]
-    [applied-science.js-interop :as j]))
+    [monaco.helpers :as helpers]
+    ["monaco" :as monaco]))
 
-(def monaco js/monaco)
-(def monaco-editor (j/get monaco :editor))
-(def monaco-languages (j/get monaco :languages))
+(def monaco-editor (helpers/get monaco "editor"))
+(def monaco-languages (helpers/get monaco "languages"))
 
 
 
@@ -15,19 +14,19 @@
 ;;
 
 (defn create [dom-element options override]
-  (j/call monaco-editor :create dom-element (b/->js options) (b/->js override)))
+  (helpers/call monaco-editor "create" dom-element options override))
 
 (defn define-theme [theme-name theme-data]
-  (j/call monaco-editor :defineTheme theme-name (b/->js theme-data)))
+  (helpers/call monaco-editor "defineTheme" theme-name theme-data))
 
 (defn focus [editor]
-  (j/call editor :focus))
+  (helpers/call editor "focus"))
 
 (defn set-model-language [model language-id]
-  (j/call monaco-editor :setModelLanguage model language-id))
+  (helpers/call monaco-editor "setModelLanguage" model language-id))
 
 (defn set-theme [theme-name]
-  (j/call monaco-editor :setTheme theme-name))
+  (helpers/call monaco-editor "setTheme" theme-name))
 
 
 
@@ -36,7 +35,7 @@
 ;;
 
 (defn dispose [disposable]
-  (j/call disposable :dispose))
+  (helpers/call disposable "dispose"))
 
 
 
@@ -45,25 +44,25 @@
 ;;
 
 (defn get-value [editor]
-  (j/call editor :getValue))
+  (helpers/call editor "getValue"))
 
 (defn get-model [editor]
-  (j/call editor :getModel))
+  (helpers/call editor "getModel"))
 
 (defn on-did-change-model [editor listener]
-  (j/call editor :onDidChangeModel listener))
+  (helpers/call editor "onDidChangeModel" listener))
 
 (defn on-did-change-model-content [editor listener]
-  (j/call editor :onDidChangeModelContent listener))
+  (helpers/call editor "onDidChangeModelContent" listener))
 
 (defn layout [editor]
-  (j/call editor :layout))
+  (helpers/call editor "layout"))
 
 (defn push-undo-stop [editor]
-  (j/call editor :pushUndoStop))
+  (helpers/call editor "pushUndoStop"))
 
 (defn update-options [editor options]
-  (j/call editor :updateOptions options))
+  (helpers/call editor "updateOptions" options))
 
 
 
@@ -72,13 +71,13 @@
 ;;
 
 (defn get-model-value [model]
-  (j/call model :getValue))
+  (helpers/call model "getValue"))
 
 (defn get-full-model-range [model]
-  (j/call model :getFullModelRange))
+  (helpers/call model "getFullModelRange"))
 
 (defn push-edit-operations [model before-cursor-state edit-operations]
-  (j/call model :pushEditOperations (b/->js before-cursor-state) (b/->js edit-operations)))
+  (helpers/call model "pushEditOperations" before-cursor-state edit-operations))
 
 
 
@@ -96,28 +95,28 @@
                                  (let [props (r/props this)]
                                    (when-some [f (:editorDidMount props)]
                                      (f editor monaco))
-                                   (j/assoc! this :__subscription
+                                   (helpers/set this "__subscription"
                                      (on-did-change-model-content editor
                                        (fn [event]
-                                         (when-not (j/get this :__preventTriggerChangeEvent)
+                                         (when-not (helpers/get this "__preventTriggerChangeEvent")
                                            (when-some [f (:onChange props)]
                                              (f (get-value editor) event))))))))
 
         editor-will-mount      (fn [this _]
                                  (let [props (r/props this)]
                                    (when-some [f (:editorWillMount props)]
-                                     (or (f monaco) (b/->js {})))))
+                                     (or (f monaco) (clj->js {})))))
 
         component-did-mount    (fn [this]
                                  (when-some [ref @*ref]
                                    (let [props  (r/props this)
                                          opts   (-> config (merge props) (assoc :editorWillMount (partial editor-will-mount this)))
                                          editor (create ref opts {})]
-                                     (j/assoc! this :editor editor)
+                                     (helpers/set this "editor" editor)
                                      (editor-did-mount this editor))))
 
         component-did-update   (fn [this old-argv]
-                                 (let [editor      (j/get this :editor)
+                                 (let [editor      (helpers/get this "editor")
                                        old-props   (second old-argv)
                                        props       (r/props this)
                                        model       (get-model editor)
@@ -125,11 +124,11 @@
                                        {:keys [value theme language options width height]} props]
 
                                    (when (and value (not= value model-value))
-                                     (j/assoc! this :__preventTriggerChangeEvent true)
+                                     (helpers/set this "__preventTriggerChangeEvent " true)
                                      (push-undo-stop editor)
                                      (push-edit-operations model [] [{:text value, :range (get-full-model-range model)}])
                                      (push-undo-stop editor)
-                                     (j/assoc! this :__preventTriggerChangeEvent false))
+                                     (helpers/set this "__preventTriggerChangeEvent " false))
 
                                    (when (not= language (:language old-props))
                                      (set-model-language model language))
@@ -145,13 +144,13 @@
                                      (layout editor))))
 
         component-will-unmount (fn [this]
-                                 (when-some [editor (j/get this :editor)]
+                                 (when-some [editor (helpers/get this "editor")]
                                    (dispose editor)
 
                                    (when-some [model (get-model editor)]
                                      (dispose model)))
 
-                                 (when-some [sub (j/get this :__subscription)]
+                                 (when-some [sub (helpers/get this "__subscription")]
                                    (dispose sub)))
 
         render                 (fn [_]
