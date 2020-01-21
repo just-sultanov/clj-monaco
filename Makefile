@@ -45,6 +45,7 @@ build: ## Build jar
 	@echo "=================================================================="
 	@echo "Build jar..."
 	@echo "=================================================================="
+	npm run build
 	clojure -A:build
 	clojure -A:version --pom --group-id ${GROUP_ID} --artifact-id ${ARTIFACT_ID} --scm-url ${SCM_URL}
 	@echo -e "\n"
