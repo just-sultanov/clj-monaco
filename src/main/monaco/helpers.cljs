@@ -16,7 +16,7 @@
    (get-in obj path nil))
 
   ([obj path default]
-   (or (gobj/getValueByKeys obj path)
+   (or (apply gobj/getValueByKeys obj path)
      default)))
 
 
