@@ -17,18 +17,26 @@
 
                        :dev        {:compiler-options {:closure-defines {goog.DEBUG                           true
                                                                          re-frame.trace/trace-enabled?        true
-                                                                         day8.re-frame.tracing/trace-enabled? true}}}}
+                                                                         day8.re-frame.tracing/trace-enabled? true}}}
 
-                :test {:target   :browser-test
-                       :test-dir "public/test"
+                       :js-options {:resolve {"monaco" {:target :global
+                                                        :global "monaco"}}}}
 
-                       :devtools {:http-port 3001
-                                  :http-root "public"
-                                  :preloads  [devtools.preload]}
+                :test {:target     :browser-test
+                       :test-dir   "public/test"
 
-                       :dev      {:compiler-options {:closure-defines {goog.DEBUG                           true
-                                                                       re-frame.trace.trace-enabled?        true
-                                                                       day8.re-frame.tracing.trace-enabled? true}}}}
+                       :devtools   {:http-port 3001
+                                    :http-root "public"
+                                    :preloads  [devtools.preload]}
 
-                :ci   {:target    :karma
-                       :output-to "public/test/js/ci.js"}}}
+                       :dev        {:compiler-options {:closure-defines {goog.DEBUG                           true
+                                                                         re-frame.trace.trace-enabled?        true
+                                                                         day8.re-frame.tracing.trace-enabled? true}}}
+
+                       :js-options {:resolve {"monaco" {:target :global
+                                                        :global "monaco"}}}}
+
+                :ci   {:target     :karma
+                       :output-to  "public/test/js/ci.js"
+                       :js-options {:resolve {"monaco" {:target :global
+                                                        :global "monaco"}}}}}}
