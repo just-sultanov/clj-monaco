@@ -104,8 +104,8 @@ jobs:
       - name: Run clean
         run: make clean
 
-      - name: Run build
-        run: make build
+      - name: Run jar build
+        run: make jar
 
       - name: Run deploy
         run: make deploy
