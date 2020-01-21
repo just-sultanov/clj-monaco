@@ -13,7 +13,7 @@ help: ## Show help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 
-dev: ## Run application in development mode
+dev: ## Run app in dev mode
 	npm run dev
 
 
@@ -41,11 +41,26 @@ test: ## Run tests
 	@echo -e "\n"
 
 
-build: ## Build jar
+serve: ## Run local server
+	@echo "=================================================================="
+	@echo "Run local server..."
+	@echo "=================================================================="
+	npm run serve
+	@echo -e "\n"
+
+
+build: ## Build app
+	@echo "=================================================================="
+	@echo "Build app..."
+	@echo "=================================================================="
+	npm run build
+	@echo -e "\n"
+
+
+jar: ## Build jar
 	@echo "=================================================================="
 	@echo "Build jar..."
 	@echo "=================================================================="
-	npm run build
 	clojure -A:build
 	clojure -A:version --pom --group-id ${GROUP_ID} --artifact-id ${ARTIFACT_ID} --scm-url ${SCM_URL}
 	@echo -e "\n"

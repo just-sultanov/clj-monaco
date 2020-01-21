@@ -75,11 +75,13 @@ $ make release
 ----
 $ make help
 help                           Show help
-dev                            Run application in development mode
+dev                            Run app in dev mode
 clean                          Clean
 lint                           Run linter
 test                           Run tests
-build                          Build jar
+serve                          Run local server
+build                          Build app
+jar                            Build jar
 init                           Init first version
 patch                          Increment patch version
 minor                          Increment minor version
