@@ -25,7 +25,7 @@ Add the following dependency in your project:
 
 === Examples
 
-You can see full examples link:src/dev/monaco/example.cljs[here].
+You can see the online demo link:https://just-sultanov.github.io/clj-monaco/[here] and full example link:src/dev/monaco/example.cljs[here].
 
 === Requirements
 

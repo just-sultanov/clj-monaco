@@ -1,5 +1,10 @@
 == Changelog
 
+=== v0.0.4
+
+* added simple implementation for the Monaco Editor API
+* added basic `editor` component
+
 === v0.0.1
 
 * initial commit
