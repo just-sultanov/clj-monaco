@@ -43,7 +43,7 @@ $ npm i
 $ make dev
 
 # Application: http://localhost:3000 or http://localhost:3000/index.html
-# Tests: http://localhost:3001/test/ or http://localhost:3001/test/index.html
+# Tests: http://localhost:3000/test/ or http://localhost:3000/test/index.html
 # REPL: nrepl://localhost:7888
 ----
 
