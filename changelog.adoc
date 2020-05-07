@@ -1,0 +1,29 @@
+== Changelog
+
+=== Unreleased
+
+'''
+
+==== v0.0.5 (2020-05-07)
+
+===== Changed
+
+* A project structure
+* Updated dependencies
+
+=== Released
+
+'''
+
+==== v0.0.4 (2020-01-21)
+
+===== Added
+
+* A simple implementation for the Monaco Editor API
+* The basic `editor` component
+
+'''
+
+==== v0.0.1 (2019-11-16)
+
+* initial commit
