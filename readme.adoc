@@ -1,0 +1,70 @@
+image:https://img.shields.io/github/license/just-sultanov/clj-monaco[License,link=LICENSE]
+image:https://github.com/just-sultanov/clj-monaco/workflows/build/badge.svg[Build]
+image:https://github.com/just-sultanov/clj-monaco/workflows/deploy/badge.svg[Deploy]
+image:https://img.shields.io/clojars/v/clj-monaco.svg[Clojars,link=https://clojars.org/clj-monaco]
+
+== clj-monaco
+
+A ClojureScript library for the Monaco Editor.
+
+STATUS: Pre-alpha, in design and prototyping phase.
+
+=== Quick Start Guide
+
+Add the following dependency in your project:
+
+[source,clojure]
+----
+;; project.clj or build.boot
+[clj-monaco "0.0.5-SNAPSHOT"]
+
+;; deps.edn
+{:deps {clj-monaco {:mvn/version "0.0.5-SNAPSHOT"}}}
+
+----
+
+=== Examples
+
+You can see the online demo link:https://just-sultanov.github.io/clj-monaco/[here] and full example link:src/dev/clojure/monaco/example.cljs[here].
+
+=== Requirements
+
+[source,bash]
+----
+# Install npm deps
+$ npm i
+----
+
+=== Development
+
+[source,bash]
+----
+# Run nREPL & connect from your IDE
+$ make repl
+
+# Application: http://localhost:3000
+# Tests: http://localhost:3000/test
+# REPL: nrepl://localhost:7888
+----
+
+=== Available commands
+
+[source,bash]
+----
+$ make help
+help                           Show help
+clean                          Clean
+repl                           Run REPL
+lint                           Run linter
+test                           Run tests
+prepare                        Prepare to build
+jar                            Build jar file
+js                             Build js files
+serve                          Run local server
+install                        Install jar file
+deploy                         Deploy to clojars
+----
+
+=== License
+
+link:LICENSE[Copyright © 2019-2020 Ilshat Sultanov]
