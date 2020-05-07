@@ -1,6 +1,5 @@
 const postcss = require("rollup-plugin-postcss");
-const { terser } = require("rollup-plugin-terser");
-const commonjs = require("@rollup/plugin-commonjs");
+const {terser} = require("rollup-plugin-terser");
 const resolve = require("@rollup/plugin-node-resolve");
 
 const production = !process.env.ROLLUP_WATCH;
@@ -8,14 +7,13 @@ const assetsPath = "public/js";
 
 export default [
   {
-    input: "src/dev/index.js",
+    input: "src/dev/javascript/index.js",
     output: {
       dir: assetsPath,
       format: "es"
     },
     plugins: [
       resolve(),
-      commonjs(),
       postcss({
         extract: true,
         minimize: production
@@ -24,7 +22,7 @@ export default [
     ]
   },
   {
-    input: "src/dev/monaco.js",
+    input: "src/dev/javascript/monaco.js",
     output: {
       dir: assetsPath,
       format: "es",
@@ -32,7 +30,6 @@ export default [
     },
     plugins: [
       resolve(),
-      commonjs(),
       postcss({
         extract: true,
         minimize: production
@@ -47,7 +44,7 @@ export default [
       format: "umd",
       name: "json.worker"
     },
-    plugins: [resolve(), commonjs(), production && terser()]
+    plugins: [resolve(), production && terser()]
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/css/css.worker.js",
@@ -56,7 +53,7 @@ export default [
       format: "umd",
       name: "css.worker"
     },
-    plugins: [resolve(), commonjs(), production && terser()]
+    plugins: [resolve(), production && terser()]
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/html/html.worker.js",
@@ -65,7 +62,7 @@ export default [
       format: "umd",
       name: "html.worker"
     },
-    plugins: [resolve(), commonjs(), production && terser()]
+    plugins: [resolve(), production && terser()]
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/typescript/ts.worker",
@@ -74,7 +71,7 @@ export default [
       format: "umd",
       name: "ts.worker"
     },
-    plugins: [resolve(), commonjs(), production && terser()]
+    plugins: [resolve(), production && terser()]
   },
   {
     input: "node_modules/monaco-editor/esm/vs/editor/editor.worker.js",
@@ -83,6 +80,6 @@ export default [
       format: "umd",
       name: "editor.worker"
     },
-    plugins: [resolve(), commonjs(), production && terser()]
+    plugins: [resolve(), production && terser()]
   }
 ];
