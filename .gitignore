@@ -15,6 +15,7 @@ target
 .shadow-cljs
 pom.xml
 trace.edn
+build.edn
 
 !public/index.html
 !public/test/index.html
