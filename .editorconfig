@@ -10,7 +10,7 @@ max_line_length = 80
 trim_trailing_whitespace = true
 
 
-[*.md]
+[{*.md, *.adoc}]
 trim_trailing_whitespace = false
 
 
