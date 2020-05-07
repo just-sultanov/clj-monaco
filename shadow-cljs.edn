@@ -1,38 +1,34 @@
-{:deps         {:aliases [:dev]}
+{:deps   {:aliases [:dev :test :common]}
 
- :source-paths ["src/main" "src/dev" "src/test"]
+ :nrepl  {:port    7888
+          :init-ns user}
 
- :nrepl        {:port    7888
-                :init-ns user}
+ :builds {:app  {:target     :browser
+                 :output-dir "public/js"
+                 :asset-path "/js"
 
- :builds       {:app  {:target     :browser
-                       :output-dir "public/js"
-                       :asset-path "/js"
+                 :modules    {:main {:init-fn monaco.example/init}}
 
-                       :modules    {:main {:init-fn monaco.example/init}}
+                 :devtools   {:http-port 3000
+                              :http-root "public"
+                              :preloads  [devtools.preload day8.re-frame-10x.preload]}
 
-                       :devtools   {:http-port 3000
-                                    :http-root "public"
-                                    :preloads  [devtools.preload day8.re-frame-10x.preload]}
+                 :dev        {:compiler-options {:closure-defines {goog.DEBUG                           true
+                                                                   re-frame.trace/trace-enabled?        true
+                                                                   day8.re-frame.tracing/trace-enabled? true}}}
+                 :js-options {:resolve {"monaco" {:target :global
+                                                  :global "monaco"}}}}
 
-                       :dev        {:compiler-options {:closure-defines {goog.DEBUG                           true
-                                                                         re-frame.trace/trace-enabled?        true
-                                                                         day8.re-frame.tracing/trace-enabled? true}}}
+          :test {:target     :browser-test
+                 :test-dir   "public/test"
 
-                       :js-options {:resolve {"monaco" {:target :global
-                                                        :global "monaco"}}}}
+                 :dev        {:compiler-options {:closure-defines {goog.DEBUG                           true
+                                                                   re-frame.trace.trace-enabled?        true
+                                                                   day8.re-frame.tracing.trace-enabled? true}}}
+                 :js-options {:resolve {"monaco" {:target :global
+                                                  :global "monaco"}}}}
 
-                :test {:target     :browser-test
-                       :test-dir   "public/test"
-
-                       :dev        {:compiler-options {:closure-defines {goog.DEBUG                           true
-                                                                         re-frame.trace.trace-enabled?        true
-                                                                         day8.re-frame.tracing.trace-enabled? true}}}
-
-                       :js-options {:resolve {"monaco" {:target :global
-                                                        :global "monaco"}}}}
-
-                :ci   {:target     :karma
-                       :output-to  "public/test/js/ci.js"
-                       :js-options {:resolve {"monaco" {:target :global
-                                                        :global "monaco"}}}}}}
+          :ci   {:target     :karma
+                 :output-to  "public/test/js/ci.js"
+                 :js-options {:resolve {"monaco" {:target :global
+                                                  :global "monaco"}}}}}}
