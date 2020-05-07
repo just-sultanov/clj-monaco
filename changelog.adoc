@@ -2,6 +2,15 @@
 
 === Unreleased
 
+'''
+
+==== v0.0.6
+
+===== Changed
+
+* `monaco.helpers` has been renamed to `monaco.js-interop`
+* `monaco.monarch` has been removed
+
 === Released
 
 '''
