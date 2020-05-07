@@ -1,30 +1,32 @@
 name: build
 
-on: push
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/build.yaml'
+      - 'src/**'
+  push:
+    paths:
+      - '.github/workflows/build.yaml'
+      - 'src/**'
+
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
+    name: test (java 14)
     steps:
-      - uses: actions/checkout@v1
-      - name: Run linter
-        uses: DeLaGuardo/clojure-lint-action@v1
-        with:
-          clj-kondo-args: --lint src
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2
 
-
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v1
+      - name: Fetch tags
+        run: |
+          git fetch --prune --unshallow
 
       - name: Setup java
         uses: actions/setup-java@v1
         with:
-          java-version: '13'
+          java-version: '14'
 
       - name: Setup clojure
         uses: DeLaGuardo/setup-clojure@2.0
@@ -34,45 +36,54 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '13'
+          node-version: '14'
 
-      - name: Cache clojure deps
+      - name: Setup clj-kondo
+        uses: DeLaGuardo/setup-clj-kondo@v1
+        with:
+          version: '2020.05.02'
+
+      - name: Cache m2 deps
         uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: clojure-${{ hashFiles('**/deps.edn') }}
+          key: ${{ runner.os }}-m2
           restore-keys: |
-            clojure-
+            ${{ runner.os }}-m2
 
-      - name: Cache npm deps
+      - name: Cache node deps
         uses: actions/cache@v1
         with:
-          path: node_modules
-          key: npm-${{ hashFiles('**/package.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node
           restore-keys: |
-            npm-
+            ${{ runner.os }}-node
 
       - name: Install npm deps
         run: npm install
-
-      - name: Run clean
-        run: make clean
 
       - name: Run tests
         run: make test
 
+      - name: Run build
+        run: make jar
+
 
   publish:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Git checkout
-        uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch tags
+        run: |
+          git fetch --prune --unshallow
 
       - name: Setup java
         uses: actions/setup-java@v1
         with:
-          java-version: '13'
+          java-version: '14'
 
       - name: Setup clojure
         uses: DeLaGuardo/setup-clojure@2.0
@@ -82,37 +93,33 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '13'
+          node-version: '14'
 
-      - name: Cache clojure deps
+      - name: Cache m2 deps
         uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: clojure-${{ hashFiles('**/deps.edn') }}
+          key: ${{ runner.os }}-m2
           restore-keys: |
-            clojure-
+            ${{ runner.os }}-m2
 
-      - name: Cache npm deps
+      - name: Cache node deps
         uses: actions/cache@v1
         with:
-          path: node_modules
-          key: npm-${{ hashFiles('**/package.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node
           restore-keys: |
-            npm-
+            ${{ runner.os }}-node
 
       - name: Install npm deps
         run: npm install
 
-      - name: Run clean
-        run: make clean
-
       - name: Run build
-        run: make build
+        run: make js
 
       - name: Publish to gh-pages
-        uses: peaceiris/actions-gh-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
         env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./public
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
 
