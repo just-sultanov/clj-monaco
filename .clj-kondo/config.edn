@@ -1,1 +1,1 @@
-{:output {:exclude-files ["src/dev/monaco/example.cljs"]}}
+{:output {:exclude-files ["src/dev/clojure/monaco/example.cljs"]}}
