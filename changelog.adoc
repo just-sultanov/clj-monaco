@@ -2,6 +2,8 @@
 
 === Unreleased
 
+=== Released
+
 '''
 
 ==== v0.0.5 (2020-05-07)
@@ -10,8 +12,6 @@
 
 * A project structure
 * Updated dependencies
-
-=== Released
 
 '''
 
