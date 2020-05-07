@@ -1,7 +1,7 @@
 (ns monaco.example
   (:require
     [clojure.string :as str]
-    [reagent.core :as r]
+    [reagent.dom :as dom]
     [re-frame.core :as rf]
     [monaco.core :as monaco]
     [monaco.monarch :as monarch]
@@ -182,7 +182,7 @@
   {:dev/after-load true}
   []
   (rf/clear-subscription-cache!)
-  (r/render [root]
+  (dom/render [root]
     (helpers/call js/document "getElementById" "root")))
 
 
