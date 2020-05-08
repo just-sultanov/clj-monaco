@@ -2,9 +2,15 @@ name: build
 
 on:
   push:
+    branches-ignore:
+      - 'master'
+    tags-ignore:
+      - '*'
+  pull_request:
     branches:
       - '*'
-      - '!master'
+    tags-ignore:
+      - '*'
 
 jobs:
   build:
