@@ -1,19 +1,14 @@
-name: build
+name: publish
 
 on:
   push:
-    branches-ignore:
-      - 'master'
-    tags-ignore:
-      - '*'
-  pull_request:
     branches:
-      - '*'
+      - 'master'
     tags-ignore:
       - '*'
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -66,4 +61,10 @@ jobs:
         run: make test
 
       - name: Run build
-        run: make jar
+        run: make js
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
