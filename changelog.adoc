@@ -2,16 +2,25 @@
 
 === Unreleased
 
+=== Released
+
 '''
 
-==== v0.0.6
+==== v0.0.6 (2020-05-08)
 
 ===== Changed
 
-* `monaco.helpers` has been renamed to `monaco.js-interop`
-* `monaco.monarch` has been removed
+* The namespace `monaco.helpers` has been renamed to `monaco.js-interop`
+* The namespace `monaco.monarch` has been removed
+* Updated dependencies
 
-=== Released
+===== Added
+
+* A new API functions:
+- `create-diff-editor`
+- `completion-item-kind`
+- `completion-item-insert-text-rule`
+* A build info to the online demo
 
 '''
 
@@ -30,6 +39,28 @@
 
 * A simple implementation for the Monaco Editor API
 * The basic `editor` component
+* A new API functions:
+- `create`
+- `define-theme`
+- `set-model-language`
+- `set-theme`
+- `focus`
+- `get-encoded-language-id`
+- `get-languages`
+- `register`
+- `set-monarch-tokens-provider`
+- `register-completion-item-provider`
+- `dispose`
+- `get-value`
+- `get-model`
+- `on-did-change-model`
+- `on-did-change-model-content`
+- `layout`
+- `push-undo-stop`
+- `update-options`
+- `get-model-value`
+- `get-full-model-range`
+- `push-edit-operations`
 
 '''
 
