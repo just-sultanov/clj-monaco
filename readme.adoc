@@ -17,10 +17,10 @@ Add the following dependency in your project:
 [source,clojure]
 ----
 ;; project.clj or build.boot
-[clj-monaco "0.0.6"]
+[clj-monaco "0.0.7"]
 
 ;; deps.edn
-{:deps {clj-monaco {:mvn/version "0.0.6"}}}
+{:deps {clj-monaco {:mvn/version "0.0.7"}}}
 
 ----
 
