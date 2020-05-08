@@ -2,13 +2,15 @@ name: deploy
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - 'master'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    name: test (java 14)
+    env:
+      MAVEN_USERNAME: ${{ secrets.CLOJARS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.CLOJARS_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -21,6 +23,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '14'
+          server-id: clojars
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
       - name: Setup clojure
         uses: DeLaGuardo/setup-clojure@2.0
@@ -59,47 +64,17 @@ jobs:
       - name: Run tests
         run: make test
 
-      - name: Run build
-        run: make jar
-
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      MAVEN_USERNAME: ${{ secrets.CLOJARS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.CLOJARS_PASSWORD }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Fetch tags
-        run: |
-          git fetch --prune --unshallow
-
-      - name: Setup java
-        uses: actions/setup-java@v1
-        with:
-          java-version: '14'
-          server-id: clojars
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-
-      - name: Setup clojure
-        uses: DeLaGuardo/setup-clojure@2.0
-        with:
-          tools-deps: latest
-
-      - name: Cache m2 deps
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2
-          restore-keys: |
-            ${{ runner.os }}-m2
-
-      - name: Run build
+      - name: Run build jar
         run: make jar
 
       - name: Run deploy
         run: make deploy
+
+      - name: Run build js
+        run: make js
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
