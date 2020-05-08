@@ -13,7 +13,9 @@
     [reagent.dom :as dom]
     [re-frame.core :as rf]
     [monaco.core :as m]
-    [monaco.js-interop :as j]))
+    [monaco.js-interop :as j])
+  (:require-macros
+    [monaco.build :refer [read-info]]))
 
 ;;;;
 ;; Helper functions
@@ -61,6 +63,8 @@
 ;; Events & subscriptions
 ;;;;
 
+(def build-info (read-info))
+
 (def custom-text
   "[Sun Mar 7 16:02:00 2004] [notice] Apache/1.3.29 (Unix) configured -- resuming normal operations
 [Sun Mar 7 16:02:00 2004] [info] Server built: Feb 27 2004 13:56:37
@@ -76,6 +80,7 @@
                  "vs-dark"  "Dark"
                  "hc-black" "High Contrast"
                  "custom"   "Custom"}
+     :info      build-info
      :editor    {:width                  "100%"
                  :height                 "100%"
                  :value                  custom-text
@@ -93,6 +98,11 @@
                  :editor-will-mount      (fn [monaco])
                  :on-change              (fn [new-value event] (rf/dispatch [::set-value new-value]))
                  :override-services      {}}}))
+
+(rf/reg-sub
+  ::info
+  (fn [db]
+    (:info db)))
 
 (rf/reg-sub
   ::languages
@@ -177,14 +187,23 @@
    [select-theme]
    [select-language]])
 
-(defn header []
-  [:h1 "Monaco Editor"])
+(defn header [info]
+  [:div.flex.justify-between
+   [:h1 "Monaco Editor"]
+   [:a {:href (:git/url info) :target "_blank"} "GitHub"]])
+
+(defn build [info]
+  (when (seq info)
+    [:div.flex.flex-col.items-end
+     [:span.text-xs (str (:version info) " (" (:timestamp info) ")")]]))
 
 (defn root []
-  [:div.m-6
-   [header]
-   [config]
-   [m/editor @(rf/subscribe [::editor])]])
+  (let [info @(rf/subscribe [::info])]
+    [:div.m-6
+     [header info]
+     [build info]
+     [config]
+     [m/editor @(rf/subscribe [::editor])]]))
 
 
 
