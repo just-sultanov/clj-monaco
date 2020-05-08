@@ -195,7 +195,7 @@
 (defn build [info]
   (when (seq info)
     [:div.flex.flex-col.items-end
-     [:span.text-xs (str (:version info) " (" (:timestamp info) ")")]]))
+     [:span.text-xs (str "v" (:version info) " (" (:timestamp info) ")")]]))
 
 (defn root []
   (let [info @(rf/subscribe [::info])]
