@@ -111,37 +111,6 @@
   (j/invoke MonacoEditor :set-theme theme-name))
 
 
-(defn completion-item-kind
-  "Returns an enum by the given type - `monaco.languages.CompletionItemKind.{ type }`
-
-  Types:
-    * `:method`
-    * `:function`
-    * `:constructor`
-    * `...`
-    * `:snippet`
-
-  A full list of available types:
-    * [link](https://github.com/microsoft/monaco-editor/blob/v0.20.0/monaco.d.ts#L5174)"
-  {:added "0.0.4"}
-  [type]
-  (j/get-in* MonacoLanguages [:completion-item-kind type]))
-
-
-(defn completion-item-insert-text-rule
-  "Returns an enum by the given type - `monaco.languages.CompletionItemInsertTextRule.{ type }`
-
-  Types:
-    * `:keep-whitespace`
-    * `:insert-as-snippet`
-
-  A full list of available types:
-    * [link](https://github.com/microsoft/monaco-editor/blob/v0.20.0/monaco.d.ts#L5226)"
-  {:added "0.0.4"}
-  [type]
-  (j/get-in* MonacoLanguages [:completion-item-insert-text-rule type]))
-
-
 (defn focus
   "Brings browser focus to the editor text.
 
@@ -224,6 +193,37 @@
   {:added "0.0.4"}
   [language-id provider]
   (j/invoke MonacoLanguages :register-completion-item-provider language-id provider))
+
+
+(defn completion-item-kind
+  "Returns an enum by the given type - `monaco.languages.CompletionItemKind.{ type }`
+
+  Types:
+    * `:method`
+    * `:function`
+    * `:constructor`
+    * `...`
+    * `:snippet`
+
+  A full list of available types:
+    * [link](https://github.com/microsoft/monaco-editor/blob/v0.20.0/monaco.d.ts#L5174)"
+  {:added "0.0.4"}
+  [type]
+  (j/get-in* MonacoLanguages [:completion-item-kind type]))
+
+
+(defn completion-item-insert-text-rule
+  "Returns an enum by the given type - `monaco.languages.CompletionItemInsertTextRule.{ type }`
+
+  Types:
+    * `:keep-whitespace`
+    * `:insert-as-snippet`
+
+  A full list of available types:
+    * [link](https://github.com/microsoft/monaco-editor/blob/v0.20.0/monaco.d.ts#L5226)"
+  {:added "0.0.4"}
+  [type]
+  (j/get-in* MonacoLanguages [:completion-item-insert-text-rule type]))
 
 
 
