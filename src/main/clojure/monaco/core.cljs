@@ -74,7 +74,7 @@
   "Define a new theme or update an existing theme.
 
   Params:
-    * `theme-name` - `String`
+    * `theme-name` - `string`
     * `theme-data` - `IStandaloneThemeData`
 
   Returns:
@@ -89,7 +89,7 @@
 
   Params:
     * `model`       - `ITextModel`
-    * `language-id` - `String`
+    * `language-id` - `string`
 
   Returns:
     * `nil`"
@@ -102,7 +102,7 @@
   "Switches to a theme.
 
   Parameters
-    * `theme-name` - `String`
+    * `theme-name` - `string`
 
   Returns:
     * `nil`"
