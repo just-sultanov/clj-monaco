@@ -129,4 +129,4 @@ install: ## Install jar file
 
 deploy: ## Deploy to clojars
 	$(call pprint, "[${GROUP_ID}/${ARTIFACT_ID}] Deploy to clojars")
-	mvn -B deploy -DaltDeploymentRepository=clojars::default::${REPOSITORY_URL} -DskipTests
+	mvn -B deploy:deploy-file -Dfile=${JAR_FILE} -DpomFile=pom.xml -DrepositoryId=clojars -Durl=${REPOSITORY_URL} -DskipTests
