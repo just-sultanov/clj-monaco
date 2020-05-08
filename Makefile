@@ -49,7 +49,7 @@ clean: ## Clean
 	rm -rf .cljs_node_repl out ${TARGET} ${JAVA_TARGET} .shadow-cljs public/js public/test/js
 
 
-repl: ## Run REPL
+repl: clean build.edn ## Run REPL
 	$(call pprint, "[${GROUP_ID}/${ARTIFACT_ID}] Run REPL")
 	npm run dev
 
