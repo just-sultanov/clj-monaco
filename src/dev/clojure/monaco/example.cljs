@@ -12,8 +12,10 @@
     [clojure.string :as str]
     [reagent.dom :as dom]
     [re-frame.core :as rf]
-    [monaco.core :as m]
-    [monaco.js-interop :as j])
+    [monaco.core :as monaco]
+    [monaco.js-interop :as j]
+    [monaco.api.editor :as monaco.editor]
+    [monaco.api.languages :as monaco.languages])
   (:require-macros
     [monaco.build :refer [read-info]]))
 
@@ -31,25 +33,25 @@
 ;;;;
 
 (defn register! []
-  (m/register {:id "custom"})
+  (monaco.languages/register {:id "custom"})
 
-  (m/set-monarch-tokens-provider "custom"
+  (monaco.languages/set-monarch-tokens-provider "custom"
     {:tokenizer {:root [[#"\[error.*" "custom-error"]
                         [#"\[notice.*" "custom-notice"]
                         [#"\[info.*" "custom-info"]
                         [#"\[[a-zA-Z 0-9:]+\]" "custom-date"]]}})
 
-  (m/register-completion-item-provider "custom"
+  (monaco.languages/register-completion-item-provider "custom"
     {:provide-completion-items (fn []
                                  {:suggestions [{:label       "simpleText"
                                                  :insert-text "simpleText"
-                                                 :kind        (m/completion-item-kind :text)}
+                                                 :kind        (monaco.languages/completion-item-kind :text)}
                                                 {:label             "testing"
                                                  :insert-text       "testing(${1:condition})"
-                                                 :insert-text-rules (m/completion-item-kind :keyword)
-                                                 :kind              (m/completion-item-insert-text-rule :insert-as-snippet)}]})})
+                                                 :insert-text-rules (monaco.languages/completion-item-kind :keyword)
+                                                 :kind              (monaco.languages/completion-item-insert-text-rule :insert-as-snippet)}]})})
 
-  (m/define-theme "custom"
+  (monaco.editor/define-theme "custom"
     {:base    "vs"
      :inherit false
      :rules   [{:token "custom-info" :foreground "808080"}
@@ -94,7 +96,7 @@
                  :read-only              false
                  :cursor-style           "line"
                  :automatic-layout       false
-                 :editor-did-mount       (fn [editor monaco] (m/focus editor))
+                 :editor-did-mount       (fn [editor monaco] (monaco.editor/focus editor))
                  :editor-will-mount      (fn [monaco])
                  :on-change              (fn [new-value event] (rf/dispatch [::set-value new-value]))
                  :override-services      {}}}))
@@ -154,9 +156,9 @@
 
 
 
-;;
+;;;;
 ;; Components
-;;
+;;;;
 
 (defn select-theme []
   (let [theme  @(rf/subscribe [::theme])
@@ -203,7 +205,7 @@
      [header info]
      [build info]
      [config]
-     [m/editor @(rf/subscribe [::editor])]]))
+     [monaco/editor @(rf/subscribe [::editor])]]))
 
 
 
