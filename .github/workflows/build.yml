@@ -41,7 +41,7 @@ jobs:
       - name: Setup clj-kondo
         uses: DeLaGuardo/setup-clj-kondo@v1
         with:
-          version: '2020.05.02'
+          version: '2020.05.09'
 
       - name: Cache m2 deps
         uses: actions/cache@v1

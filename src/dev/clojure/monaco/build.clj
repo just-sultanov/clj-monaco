@@ -22,5 +22,5 @@
 
 
 (defmacro read-info []
-  (or (safe-slurp "clj-monaco/build.edn")
+  (or (safe-slurp "monaco/build.edn")
     {}))
