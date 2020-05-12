@@ -12,8 +12,8 @@
     [reagent.core :as r]
     [monaco.js-interop :as j]
     [monaco.api.refs :refer [Monaco]]
-    [monaco.api.editor :as me]
-    [monaco.api.editor.text-model :as mtm]))
+    [monaco.api.editor :as monaco.editor]
+    [monaco.api.editor.text-model :as monaco.editor.text-model]))
 
 ;;;;
 ;; Components
@@ -64,11 +64,11 @@
                                    (when-some [f (:editor-did-mount props)]
                                      (f editor Monaco))
                                    (j/set this :__subscription
-                                     (me/on-did-change-model-content editor
+                                     (monaco.editor/on-did-change-model-content editor
                                        (fn [event]
                                          (when-not (j/get this :__prevent-trigger-on-change-event)
                                            (when-some [f (:on-change props)]
-                                             (f (me/get-value editor) event))))))))
+                                             (f (monaco.editor/get-value editor) event))))))))
 
         editor-will-mount      (fn [this _]
                                  (let [props (r/props this)]
@@ -81,7 +81,7 @@
                                          opts   (-> config
                                                   (merge props)
                                                   (assoc :editor-will-mount (partial editor-will-mount this)))
-                                         editor (me/create ref opts {})]
+                                         editor (monaco.editor/create ref opts {})]
                                      (j/set this :editor editor)
                                      (editor-did-mount this editor))))
 
@@ -89,39 +89,41 @@
                                  (let [editor      (j/get this :editor)
                                        old-props   (second old-argv)
                                        props       (r/props this)
-                                       model       (me/get-model editor)
-                                       model-value (mtm/get-value model)
+                                       model       (monaco.editor/get-model editor)
+                                       model-value (monaco.editor.text-model/get-value model)
                                        {:keys [value theme language options width height]} props]
 
                                    (when (and value (not= value model-value))
-                                     (j/set this :__prevent-trigger-on-change-event true)
-                                     (me/push-undo-stop editor)
-                                     (mtm/push-edit-operations model [] [{:text value, :range (mtm/get-full-model-range model)}] nil)
-                                     (me/push-undo-stop editor)
-                                     (j/set this :__prevent-trigger-on-change-event false))
+                                     (let [range           (monaco.editor.text-model/get-full-model-range model)
+                                           edit-operations [{:text value, :range range}]]
+                                       (j/set this :__prevent-trigger-on-change-event true)
+                                       (monaco.editor/push-undo-stop editor)
+                                       (monaco.editor.text-model/push-edit-operations model [] edit-operations nil)
+                                       (monaco.editor/push-undo-stop editor)
+                                       (j/set this :__prevent-trigger-on-change-event false)))
 
                                    (when (not= language (:language old-props))
-                                     (me/set-model-language model language))
+                                     (monaco.editor/set-model-language model language))
 
                                    (when (not= theme (:theme old-props))
-                                     (me/set-theme theme))
+                                     (monaco.editor/set-theme theme))
 
                                    (when (not= options (:options old-props))
-                                     (me/update-options editor options))
+                                     (monaco.editor/update-options editor options))
 
                                    (when (or (not= width (:width old-props))
                                            (not= height (:height old-props)))
-                                     (me/layout editor))))
+                                     (monaco.editor/layout editor))))
 
         component-will-unmount (fn [this]
                                  (when-some [editor (j/get this :editor)]
-                                   (me/dispose editor)
+                                   (monaco.editor/dispose editor)
 
-                                   (when-some [model (me/get-model editor)]
-                                     (me/dispose model)))
+                                   (when-some [model (monaco.editor/get-model editor)]
+                                     (monaco.editor/dispose model)))
 
                                  (when-some [sub (j/get this :__subscription)]
-                                   (me/dispose sub)))
+                                   (monaco.editor/dispose sub)))
 
         render                 (fn [_]
                                  [:div.monaco-editor-wrapper {:ref assign-ref}])]
