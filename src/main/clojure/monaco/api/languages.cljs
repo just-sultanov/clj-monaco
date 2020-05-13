@@ -52,7 +52,7 @@
   Returns:
     * `nil`
 
-  A full list of available properties:
+  Full list of available properties:
     * [link](https://microsoft.github.io/monaco-editor/api/interfaces/monaco.languages.ilanguageextensionpoint.html)"
   {:added "0.0.4"}
   [language]
@@ -128,7 +128,7 @@
     * `:keep-whitespace`
     * `:insert-as-snippet`
 
-  A full list of available types:
+  Full list of available types:
     * [link](https://github.com/microsoft/monaco-editor/blob/v0.20.0/monaco.d.ts#L5226)"
   {:added "0.0.4"}
   [type]
@@ -145,7 +145,7 @@
     * `...`
     * `:snippet`
 
-  A full list of available types:
+  Full list of available types:
     * [link](https://github.com/microsoft/monaco-editor/blob/v0.20.0/monaco.d.ts#L5174)"
   {:added "0.0.4"}
   [type]

@@ -6,7 +6,7 @@
 }
 
 .monaco-editor-wrapper {
-  @apply w-full h-screen;
+  @apply w-full h-64;
 }
 
 @tailwind utilities;

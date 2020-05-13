@@ -13,10 +13,6 @@
     [monaco.js-interop :as j]
     [monaco.api.refs :refer [MonacoEditor]]))
 
-;;;;
-;; Monaco Editor
-;;;;
-
 ;; NOTE: https://microsoft.github.io/monaco-editor/api/modules/monaco.editor.html
 
 ;;;;
@@ -187,7 +183,38 @@
 ;; IStandaloneCodeEditor methods
 ;;;;
 
-;; - addAction
+(defn add-action
+  "Add action to the editor.
+
+  Params:
+    * `editor`     - `IStandaloneCodeEditor`
+    * `descriptor` - `IActionDescriptor`
+
+  Returns:
+    * `IDisposable`
+
+  Full information about the descriptor structure:
+  * [link](https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.iactiondescriptor.html)"
+  {:added "0.0.8"}
+  [editor descriptor]
+  (j/invoke editor :add-action descriptor))
+
+
+(defn add-actions
+  "Add actions to the editor.
+
+  Params:
+    * `editor`      - `IStandaloneCodeEditor`
+    * `descriptors` - `IActionDescriptor[]`
+
+  Returns:
+    * `nil`"
+  {:added "0.0.8"}
+  [editor descriptors]
+  (doseq [descriptor descriptors]
+    (add-action editor descriptor)))
+
+
 ;; - addCommand
 ;; - addContentWidget
 ;; - addOverlayWidget
@@ -256,7 +283,21 @@
 ;; - getOffsetForColumn
 ;; - getOption
 ;; - getOptions
-;; - getPosition
+
+
+(defn get-position
+  "Returns the primary position of the cursor.
+
+  Params:
+    * `editor` - `IStandaloneCodeEditor`
+
+  Returns:
+    * `Position` or `nil`"
+  {:added "0.0.8"}
+  [editor]
+  (j/invoke editor :get-position))
+
+
 ;; - getRawOptions
 ;; - getScrollHeight
 ;; - getScrollLeft

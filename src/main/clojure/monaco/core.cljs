@@ -41,7 +41,7 @@
      :editor-did-mount       (fn [editor] (monaco.api.editor/focus editor))
      :on-change              (fn [new-value event] (re-frame.core/dispatch [::set-value new-value]))}
 
-  A full list of available properties:
+  Full list of available properties:
     * [link](https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandaloneeditorconstructionoptions.html)"
   {:added "0.0.4"}
   [config]

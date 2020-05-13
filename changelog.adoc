@@ -1,39 +1,47 @@
 == Changelog
 
-=== Unreleased
-
 '''
 
-==== v0.0.8-SNAPSHOT
+=== v0.0.8-SNAPSHOT
 
-===== Changed
+==== Changed
 
 * Code split by namespaces
 * Deprecated lifecycle method `componentWillMount` has been removed
 
-=== Released
+==== Added
+
+* New API functions:
+- `get-position`
+- `add-action`
+- `add-actions`
+* The `monaco.api.keyboard` namespace with new API functions:
+- `with-key`
+- `with-modifier`
+- `with-combo`
+- `with-chord`
 
 '''
 
-==== v0.0.7 (2020-05-08)
+=== v0.0.7 (2020-05-08)
 
-===== Fixed
+==== Fixed
 
 * Building a jar file
 
 '''
 
-==== v0.0.6 (2020-05-08)
+=== v0.0.6 (2020-05-08)
 
-===== Changed
+==== Changed
 
 * The namespace `monaco.helpers` has been renamed to `monaco.js-interop`
 * The namespace `monaco.monarch` has been removed
 * Updated dependencies
 
-===== Added
+==== Added
 
-* A new API functions:
+* New API functions:
 - `create-diff-editor`
 - `completion-item-kind`
 - `completion-item-insert-text-rule`
@@ -41,22 +49,22 @@
 
 '''
 
-==== v0.0.5 (2020-05-07)
+=== v0.0.5 (2020-05-07)
 
-===== Changed
+==== Changed
 
 * A project structure
 * Updated dependencies
 
 '''
 
-==== v0.0.4 (2020-01-21)
+=== v0.0.4 (2020-01-21)
 
-===== Added
+==== Added
 
 * A simple implementation for the Monaco Editor API
 * The basic `editor` component
-* A new API functions:
+* New API functions:
 - `create`
 - `define-theme`
 - `set-model-language`
@@ -81,6 +89,6 @@
 
 '''
 
-==== v0.0.1 (2019-11-16)
+=== v0.0.1 (2019-11-16)
 
 * initial commit
