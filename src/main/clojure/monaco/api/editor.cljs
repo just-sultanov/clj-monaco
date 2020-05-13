@@ -187,7 +187,23 @@
 ;; IStandaloneCodeEditor methods
 ;;;;
 
-;; - addAction
+(defn add-action
+  "Add action to the editor.
+
+  Params:
+    * `editor`     - `IStandaloneCodeEditor`
+    * `descriptor` - `IActionDescriptor`
+
+  Returns:
+    * `IDisposable`
+
+  Full information about the descriptor structure:
+  * [link](https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.iactiondescriptor.html)"
+  {:added "0.0.8"}
+  [editor descriptor]
+  (j/invoke editor :add-action descriptor))
+
+
 ;; - addCommand
 ;; - addContentWidget
 ;; - addOverlayWidget
