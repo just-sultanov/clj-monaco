@@ -11,7 +11,6 @@
   (:require
     [reagent.core :as r]
     [monaco.js-interop :as j]
-    [monaco.api.refs :refer [Monaco]]
     [monaco.api.editor :as monaco.editor]
     [monaco.api.editor.text-model :as monaco.editor.text-model]))
 
@@ -39,16 +38,8 @@
      :read-only              false
      :cursor-style           \"line\"
      :automatic-layout       false
-     :editor-did-mount       (fn [editor monaco]
-                               (js/console.log :editor-did-mount)
-                               (monaco.api.editor/focus editor))
-
-     :editor-will-mount      (fn [monaco]
-                               (js/console.log :editor-will-mount))
-
-     :on-change              (fn [new-value event]
-                               (js/console.log :on-change)
-                               (rf/dispatch [::set-value new-value]))}
+     :editor-did-mount       (fn [editor] (monaco.api.editor/focus editor))
+     :on-change              (fn [new-value event] (re-frame.core/dispatch [::set-value new-value]))}
 
   A full list of available properties:
     * [link](https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandaloneeditorconstructionoptions.html)"
@@ -59,31 +50,25 @@
         assign-ref             (fn [component]
                                  (reset! *ref component))
 
-        editor-did-mount       (fn [this editor]
-                                 (let [props (r/props this)]
-                                   (when-some [f (:editor-did-mount props)]
-                                     (f editor Monaco))
-                                   (j/set this :__subscription
-                                     (monaco.editor/on-did-change-model-content editor
-                                       (fn [event]
-                                         (when-not (j/get this :__prevent-trigger-on-change-event)
-                                           (when-some [f (:on-change props)]
+        editor-did-mount       (fn [this]
+                                 (let [props  (r/props this)
+                                       editor (j/get this :editor)]
+                                   (when-let [f (:editor-did-mount props)]
+                                     (f editor))
+                                   (when-let [f (:on-change props)]
+                                     (j/set this :__subscription
+                                       (monaco.editor/on-did-change-model-content editor
+                                         (fn [event]
+                                           (when-not (j/get this :__prevent-trigger-on-change-event)
                                              (f (monaco.editor/get-value editor) event))))))))
 
-        editor-will-mount      (fn [this _]
-                                 (let [props (r/props this)]
-                                   (when-some [f (:editor-will-mount props)]
-                                     (or (f Monaco) (j/with-camel-case {})))))
-
         component-did-mount    (fn [this]
-                                 (when-some [ref @*ref]
+                                 (when-let [ref @*ref]
                                    (let [props  (r/props this)
-                                         opts   (-> config
-                                                  (merge props)
-                                                  (assoc :editor-will-mount (partial editor-will-mount this)))
+                                         opts   (merge config props)
                                          editor (monaco.editor/create ref opts {})]
                                      (j/set this :editor editor)
-                                     (editor-did-mount this editor))))
+                                     (editor-did-mount this))))
 
         component-did-update   (fn [this old-argv]
                                  (let [editor      (j/get this :editor)
@@ -102,13 +87,13 @@
                                        (monaco.editor/push-undo-stop editor)
                                        (j/set this :__prevent-trigger-on-change-event false)))
 
-                                   (when (not= language (:language old-props))
+                                   (when-not (= language (:language old-props))
                                      (monaco.editor/set-model-language model language))
 
-                                   (when (not= theme (:theme old-props))
+                                   (when-not (= theme (:theme old-props))
                                      (monaco.editor/set-theme theme))
 
-                                   (when (not= options (:options old-props))
+                                   (when-not (= options (:options old-props))
                                      (monaco.editor/update-options editor options))
 
                                    (when (or (not= width (:width old-props))
@@ -116,13 +101,13 @@
                                      (monaco.editor/layout editor))))
 
         component-will-unmount (fn [this]
-                                 (when-some [editor (j/get this :editor)]
+                                 (when-let [editor (j/get this :editor)]
                                    (monaco.editor/dispose editor)
 
-                                   (when-some [model (monaco.editor/get-model editor)]
+                                   (when-let [model (monaco.editor/get-model editor)]
                                      (monaco.editor/dispose model)))
 
-                                 (when-some [sub (j/get this :__subscription)]
+                                 (when-let [sub (j/get this :__subscription)]
                                    (monaco.editor/dispose sub)))
 
         render                 (fn [_]
