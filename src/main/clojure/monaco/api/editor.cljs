@@ -272,7 +272,21 @@
 ;; - getOffsetForColumn
 ;; - getOption
 ;; - getOptions
-;; - getPosition
+
+
+(defn get-position
+  "Returns the primary position of the cursor.
+
+  Params:
+    * `editor` - `IStandaloneCodeEditor`
+
+  Returns:
+    * `Position` or `nil`"
+  {:added "0.0.8"}
+  [editor]
+  (j/invoke editor :get-position))
+
+
 ;; - getRawOptions
 ;; - getScrollHeight
 ;; - getScrollLeft
