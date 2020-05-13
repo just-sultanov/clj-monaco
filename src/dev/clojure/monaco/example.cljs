@@ -96,8 +96,7 @@
                  :read-only              false
                  :cursor-style           "line"
                  :automatic-layout       false
-                 :editor-did-mount       (fn [editor monaco] (monaco.editor/focus editor))
-                 :editor-will-mount      (fn [monaco])
+                 :editor-did-mount       (fn [editor] (monaco.editor/focus editor))
                  :on-change              (fn [new-value event] (rf/dispatch [::set-value new-value]))
                  :override-services      {}}}))
 
