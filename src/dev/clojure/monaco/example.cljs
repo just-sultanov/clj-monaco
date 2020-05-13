@@ -15,6 +15,7 @@
     [monaco.core :as monaco]
     [monaco.js-interop :as j]
     [monaco.api.editor :as monaco.editor]
+    [monaco.api.keyboard :as monaco.keyboard]
     [monaco.api.languages :as monaco.languages])
   (:require-macros
     [monaco.build :refer [read-info]]))
@@ -73,6 +74,17 @@
 [Sun Mar 7 16:02:00 2004] [notice] Accept mutex: sysvsem (Default: sysvsem)
 [Sun Mar 7 21:16:17 2004] [error] [client xx.xx.xx.xx] File does not exist: /home/httpd/twiki/view/Main/WebHome")
 
+(def custom-actions
+  [{:id          "cursor-position"
+    :label       "Show the current cursor position"
+    :keybindings [(monaco.keyboard/with-combo :ctrl-cmd :f10)
+                  (monaco.keyboard/with-chord
+                    (monaco.keyboard/with-combo :ctrl-cmd :key-k)
+                    (monaco.keyboard/with-combo :ctrl-cmd :key-m))]
+    :run         (fn [editor]
+                   (let [position (monaco.editor/get-position editor)]
+                     (js/confirm (str "Position: " position))))}])
+
 
 (rf/reg-event-db
   ::init
@@ -96,9 +108,12 @@
                  :read-only              false
                  :cursor-style           "line"
                  :automatic-layout       false
-                 :editor-did-mount       (fn [editor] (monaco.editor/focus editor))
+                 :editor-did-mount       (fn [editor]
+                                           (monaco.editor/add-actions editor custom-actions)
+                                           (monaco.editor/focus editor))
                  :on-change              (fn [new-value event] (rf/dispatch [::set-value new-value]))
                  :override-services      {}}}))
+
 
 (rf/reg-sub
   ::info
@@ -198,11 +213,24 @@
     [:div.flex.flex-col.items-end
      [:span.text-xs (str "v" (:version info) " (" (:timestamp info) ")")]]))
 
+(defn notes []
+  [:div.mt-6.flex.flex-col
+   [:h2 "Notes"]
+   [:span.mt-2.text-sm "Keyboard shortcuts:"]
+   [:ul.list-disc.ml-6
+    [:li
+     [:div.text-xs
+      [:span "Show the current cursor position:"]
+      [:span.font-bold.ml-1 "cmd+f10"]
+      [:span.ml-1 "or"]
+      [:span.font-bold.ml-1 "cmd+k cmd+m"]]]]])
+
 (defn root []
   (let [info @(rf/subscribe [::info])]
     [:div.m-6
      [header info]
      [build info]
+     [notes]
      [config]
      [monaco/editor @(rf/subscribe [::editor])]]))
 
