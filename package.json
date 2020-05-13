@@ -58,7 +58,7 @@
     "postcss-import": "^12.0.1",
     "postcss-url": "^8.0.0",
     "react-highlight.js": "1.0.7",
-    "rollup": "^2.9.1",
+    "rollup": "^2.10.0",
     "rollup-plugin-postcss": "^3.1.1",
     "rollup-plugin-terser": "^5.3.0",
     "shadow-cljs": "^2.9.2",
