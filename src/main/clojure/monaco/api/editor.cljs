@@ -13,10 +13,6 @@
     [monaco.js-interop :as j]
     [monaco.api.refs :refer [MonacoEditor]]))
 
-;;;;
-;; Monaco Editor
-;;;;
-
 ;; NOTE: https://microsoft.github.io/monaco-editor/api/modules/monaco.editor.html
 
 ;;;;
@@ -202,6 +198,21 @@
   {:added "0.0.8"}
   [editor descriptor]
   (j/invoke editor :add-action descriptor))
+
+
+(defn add-actions
+  "Add actions to the editor.
+
+  Params:
+    * `editor`      - `IStandaloneCodeEditor`
+    * `descriptors` - `IActionDescriptor[]`
+
+  Returns:
+    * `nil`"
+  {:added "0.0.8"}
+  [editor descriptors]
+  (doseq [descriptor descriptors]
+    (add-action editor descriptor)))
 
 
 ;; - addCommand
