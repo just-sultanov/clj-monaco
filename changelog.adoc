@@ -4,7 +4,19 @@
 
 === v0.0.9-SNAPSHOT
 
-TBD
+==== Changed
+
+* A wrapper class name: `monaco-editor__wrapper`
+* The `monaco.js-interop/set` function returns `nil`
+* Updated dependencies
+
+==== Added
+
+* The `editor` to the user-defined `on-change` function as first argument `[editor new-value event]`
+* New API functions:
+- `monaco.api.editor/set-value`
+- `monaco.api.editor.text-model/set-value`
+- `monaco.api.editor.text-model/update-options`
 
 '''
 
