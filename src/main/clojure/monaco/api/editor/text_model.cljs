@@ -112,7 +112,36 @@
 
 ;; - pushStackElement
 ;; - setEOL
-;; - setValue
-;; - updateOptions
+
+
+(defn set-value
+  "Replace the entire text buffer value contained in this model.
+
+  Params:
+    * `model`     - `ITextModel`
+    * `new-value` - `string`
+
+  Returns:
+    * `nil`"
+  {:added "0.0.9"}
+  [model new-value]
+  (j/invoke model :set-value new-value))
+
+
+(defn update-options
+  "Change the options of this model.
+
+  Params:
+    * `model`       - `ITextModel`
+    * `new-options` - `ITextModelUpdateOptions`
+
+  Returns:
+    * `nil`"
+  {:added "0.0.9s"}
+  [model new-options]
+  (j/invoke model :update-options new-options))
+
+
+
 ;; - validatePosition
 ;; - validateRange
