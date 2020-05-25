@@ -389,7 +389,22 @@
 ;; - setScrollTop
 ;; - setSelection
 ;; - setSelections
-;; - setValue
+
+
+(defn set-value
+  "Set the value of the current model attached to this editor.
+
+  Params:
+    * `editor`    - `IStandaloneCodeEditor`
+    * `new-value` - `string`
+
+  Returns:
+    * `nil`"
+  {:added "0.0.9"}
+  [editor new-value]
+  (j/invoke editor :set-value new-value))
+
+
 ;; - trigger
 
 
@@ -397,11 +412,11 @@
   "Update the editor's options after the editor has been created.
 
   Params:
-    * `editor`  - `IStandaloneCodeEditor`
-    * `options` - `IEditorOptions` or `IGlobalEditorOptions`
+    * `editor`      - `IStandaloneCodeEditor`
+    * `new-options` - `IEditorOptions` or `IGlobalEditorOptions`
 
   Returns:
     * `nil`"
   {:added "0.0.4"}
-  [editor options]
-  (j/invoke editor :update-options options))
+  [editor new-options]
+  (j/invoke editor :update-options new-options))
