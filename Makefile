@@ -10,7 +10,7 @@ include .env
 
 
 ifndef GIT_SHA
-  GIT_SHA = $(shell git rev-parse HEAD)
+  GIT_SHA = $(shell git rev-parse --short HEAD)
 endif
 
 
@@ -46,7 +46,7 @@ help: ## Show help
 
 clean: ## Clean
 	$(call pprint, "[${GROUP_ID}/${ARTIFACT_ID}] Clean")
-	rm -rf .cljs_node_repl out ${TARGET} ${JAVA_TARGET} .shadow-cljs public/js public/test/js
+	rm -rf .cljs_node_repl out ${TARGET} ${JAVA_TARGET} .shadow-cljs public/assets public/test/assets
 
 
 repl: clean build.edn ## Run REPL

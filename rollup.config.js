@@ -1,85 +1,85 @@
-const postcss = require("rollup-plugin-postcss");
-const {terser} = require("rollup-plugin-terser");
-const resolve = require("@rollup/plugin-node-resolve");
+import postcss from "rollup-plugin-postcss";
+import { terser } from "rollup-plugin-terser";
+import resolve from "@rollup/plugin-node-resolve";
 
 const production = !process.env.ROLLUP_WATCH;
-const assetsPath = "public/js";
+const assetsRelativePath = "public/assets";
 
 export default [
   {
     input: "src/dev/javascript/index.js",
     output: {
-      dir: assetsPath,
-      format: "es"
+      dir: assetsRelativePath,
+      format: "es",
     },
     plugins: [
       resolve(),
       postcss({
         extract: true,
-        minimize: production
+        minimize: production,
       }),
-      production && terser()
-    ]
+      production && terser(),
+    ],
   },
   {
     input: "src/dev/javascript/monaco.js",
     output: {
-      dir: assetsPath,
+      dir: assetsRelativePath,
       format: "es",
-      chunkFileNames: "[name].js"
+      chunkFileNames: "[name].js",
     },
     plugins: [
       resolve(),
       postcss({
         extract: true,
-        minimize: production
+        minimize: production,
       }),
-      production && terser()
-    ]
+      production && terser(),
+    ],
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/json/json.worker.js",
     output: {
-      file: `${assetsPath}/json.worker.js`,
+      file: `${assetsRelativePath}/json.worker.js`,
       format: "umd",
-      name: "json.worker"
+      name: "json.worker",
     },
-    plugins: [resolve(), production && terser()]
+    plugins: [resolve(), production && terser()],
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/css/css.worker.js",
     output: {
-      file: `${assetsPath}/css.worker.js`,
+      file: `${assetsRelativePath}/css.worker.js`,
       format: "umd",
-      name: "css.worker"
+      name: "css.worker",
     },
-    plugins: [resolve(), production && terser()]
+    plugins: [resolve(), production && terser()],
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/html/html.worker.js",
     output: {
-      file: `${assetsPath}/html.worker.js`,
+      file: `${assetsRelativePath}/html.worker.js`,
       format: "umd",
-      name: "html.worker"
+      name: "html.worker",
     },
-    plugins: [resolve(), production && terser()]
+    plugins: [resolve(), production && terser()],
   },
   {
     input: "node_modules/monaco-editor/esm/vs/language/typescript/ts.worker",
     output: {
-      file: `${assetsPath}/ts.worker.js`,
+      file: `${assetsRelativePath}/ts.worker.js`,
       format: "umd",
-      name: "ts.worker"
+      name: "ts.worker",
     },
-    plugins: [resolve(), production && terser()]
+    plugins: [resolve(), production && terser()],
   },
   {
     input: "node_modules/monaco-editor/esm/vs/editor/editor.worker.js",
     output: {
-      file: `${assetsPath}/editor.worker.js`,
+      file: `${assetsRelativePath}/editor.worker.js`,
       format: "umd",
-      name: "editor.worker"
+      name: "editor.worker",
     },
-    plugins: [resolve(), production && terser()]
-  }
+    plugins: [resolve(), production && terser()],
+  },
 ];

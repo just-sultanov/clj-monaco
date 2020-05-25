@@ -5,7 +5,7 @@
   @apply mx-auto;
 }
 
-.monaco-editor-wrapper {
+.monaco-editor__wrapper {
   @apply w-full h-64;
 }
 

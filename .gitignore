@@ -3,8 +3,8 @@
 .cljs_node_repl
 .cpcache
 .idea
-public/js
-public/test/js
+public/assets
+public/test/assets
 node_modules
 out
 target

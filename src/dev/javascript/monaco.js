@@ -1,19 +1,19 @@
 import * as monaco from "monaco-editor";
 
 self.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId, label) {
+  getWorkerUrl: function (moduleId, label) {
     if (label === "json") {
-      return "./js/json.worker.js";
+      return "./assets/json.worker.js";
     }
     if (label === "css") {
-      return "./js/css.worker.js";
+      return "./assets/css.worker.js";
     }
     if (label === "html") {
-      return "./js/html.worker.js";
+      return "./assets/html.worker.js";
     }
     if (label === "typescript" || label === "javascript") {
-      return "./js/ts.worker.js";
+      return "./assets/ts.worker.js";
     }
-    return "./js/editor.worker.js";
-  }
+    return "./assets/editor.worker.js";
+  },
 };
