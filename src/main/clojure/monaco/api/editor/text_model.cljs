@@ -137,7 +137,7 @@
 
   Returns:
     * `nil`"
-  {:added "0.0.9s"}
+  {:added "0.0.9"}
   [model new-options]
   (j/invoke model :update-options new-options))
 

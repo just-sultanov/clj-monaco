@@ -121,7 +121,7 @@
 
 (defn set
   "Same as `goog.object/set` function, but uses `camelCase` for the key."
-  {:added "s0.0.4"}
+  {:added "0.0.4"}
   [obj key value]
   (gobj/set obj (with-camel-case key) value))
 
