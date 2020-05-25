@@ -13,12 +13,11 @@
     [reagent.dom :as dom]
     [re-frame.core :as rf]
     [monaco.core :as monaco]
+    [monaco.build :as build]
     [monaco.js-interop :as j]
     [monaco.api.editor :as monaco.editor]
     [monaco.api.keyboard :as monaco.keyboard]
-    [monaco.api.languages :as monaco.languages])
-  (:require-macros
-    [monaco.build :refer [read-info]]))
+    [monaco.api.languages :as monaco.languages]))
 
 ;;;;
 ;; Helper functions
@@ -66,8 +65,6 @@
 ;; Events & subscriptions
 ;;;;
 
-(def build-info (read-info))
-
 (def custom-text
   "[Sun Mar 7 16:02:00 2004] [notice] Apache/1.3.29 (Unix) configured -- resuming normal operations
 [Sun Mar 7 16:02:00 2004] [info] Server built: Feb 27 2004 13:56:37
@@ -94,7 +91,7 @@
                  "vs-dark"  "Dark"
                  "hc-black" "High Contrast"
                  "custom"   "Custom"}
-     :info      build-info
+     :info      build/info
      :editor    {:width                  "100%"
                  :height                 "100%"
                  :value                  custom-text
@@ -111,7 +108,7 @@
                  :editor-did-mount       (fn [editor]
                                            (monaco.editor/add-actions editor custom-actions)
                                            (monaco.editor/focus editor))
-                 :on-change              (fn [new-value event] (rf/dispatch [::set-value new-value]))
+                 :on-change              (fn [editor new-value event] (rf/dispatch [::set-value new-value]))
                  :override-services      {}}}))
 
 
@@ -221,9 +218,9 @@
     [:li
      [:div.text-xs
       [:span "Show the current cursor position:"]
-      [:span.font-bold.ml-1 "cmd+f10"]
+      [:span.font-bold.ml-1 "cmd f10"]
       [:span.ml-1 "or"]
-      [:span.font-bold.ml-1 "cmd+k cmd+m"]]]]])
+      [:span.font-bold.ml-1 "cmd k m"]]]]])
 
 (defn root []
   (let [info @(rf/subscribe [::info])]
