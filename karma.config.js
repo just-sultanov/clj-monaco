@@ -1,15 +1,15 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     browsers: ["ChromeHeadless"],
     basePath: "public",
-    files: ["js/monaco.js", "js/index.js", "test/js/ci.js"],
+    files: ["assets/monaco.js", "assets/index.js", "test/assets/ci.js"],
     frameworks: ["cljs-test"],
     plugins: ["karma-cljs-test", "karma-chrome-launcher"],
     colors: true,
     logLevel: config.LOG_INFO,
     client: {
       args: ["shadow.test.karma.init"],
-      singleRun: true
-    }
+      singleRun: true,
+    },
   });
 };
