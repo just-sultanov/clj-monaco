@@ -39,7 +39,7 @@
      :cursor-style           \"line\"
      :automatic-layout       false
      :editor-did-mount       (fn [editor] (monaco.api.editor/focus editor))
-     :on-change              (fn [new-value event] (re-frame.core/dispatch [::set-value new-value]))}
+     :on-change              (fn [editor new-value event] (re-frame.core/dispatch [::set-value new-value]))}
 
   Full list of available properties:
     * [link](https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandaloneeditorconstructionoptions.html)"
@@ -60,7 +60,7 @@
                                        (monaco.editor/on-did-change-model-content editor
                                          (fn [event]
                                            (when-not (j/get this :__prevent-trigger-on-change-event)
-                                             (f (monaco.editor/get-value editor) event))))))))
+                                             (f editor (monaco.editor/get-value editor) event))))))))
 
         component-did-mount    (fn [this]
                                  (when-let [ref @*ref]
@@ -111,7 +111,7 @@
                                    (monaco.editor/dispose sub)))
 
         render                 (fn [_]
-                                 [:div.monaco-editor-wrapper {:ref assign-ref}])]
+                                 [:div.monaco-editor__wrapper {:ref assign-ref}])]
     (fn [_]
       (r/create-class
         {:display-name           "monaco-editor"
