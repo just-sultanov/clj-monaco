@@ -8,7 +8,8 @@ image:https://github.com/just-sultanov/clj-monaco/workflows/deploy/badge.svg[Dep
 
 A ClojureScript library for the Monaco Editor.
 
-STATUS: Pre-alpha, in design and prototyping phase.
+STATUS: [Experimental] Pre-alpha, in design and prototyping phase. Figwheel isn't supported. Use shadow-cljs.
+
 
 === Quick Start Guide
 
